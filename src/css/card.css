@@ -1,24 +1,24 @@
 .activityIconContainer {
   width: 100%;
-  padding-bottom: 56%;
-  margin-top : 20px;
+  padding-bottom: 50%;
+  margin-top: 20px;
   background-color: #eee;
     /*background:gold; /** <-- For the demo **/*/
 }
 
-.timer{
-  text-align:  center;
+.timer {
+  text-align: center;
 }
 
-.activityName{
-  text-align:  center;
+.activityName {
+  text-align: center;
   position: absolute;
-bottom: 0;
-left: 35%;
+  bottom: 0;
+  left: 45%;
 }
 
-.middle{
+.middle {
   margin-left: auto;
   margin-right: auto;
-  display : block
+  display: block
 }
