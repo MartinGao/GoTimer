@@ -1,0 +1,11 @@
+{
+  "extends": "airbnb",
+    "rules": {
+      "no-unused-vars": [2, {"varsIgnorePattern": "^_", "argsIgnorePattern": "^_"}],
+      "no-use-before-define": [2, "nofunc"],
+      "prefer-template": [0],
+      "no-console": [0],
+      "new-cap": [2, {"capIsNewExceptions": ["mongoose.Types.ObjectId"]}]
+  },
+  "esversion": 6,
+}
