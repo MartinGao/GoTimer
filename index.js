@@ -23,7 +23,9 @@ import LogModel from './Model/log.model';
 LogModel(app);
 
 import LogRoute from './Route/log.route';
+import HistoryRoute from './Route/history.route';
 LogRoute(app);
+HistoryRoute(app);
 
 
 nunjucks.configure('public', {
