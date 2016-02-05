@@ -40,7 +40,17 @@
       dom: '#goalsList',
       transform: function (value) {
         var str = ''
-        str += '<div class="col-xs-12 well small-padding">'
+
+        if(value.started && !value.ended){
+          str += '<div class="col-xs-12 well small-padding" style="background-color: #dbf0db;">'
+        }
+        else if(value.started && value.ended){
+          str += '<div class="col-xs-12 well small-padding" style="background-color: #fbe9d0;">'
+        }
+        else{
+          str += '<div class="col-xs-12 well small-padding" style="background-color: #ccebff;">'
+        }
+
 
         str += '<div class="col-xs-8 small-padding">'
 

@@ -1,15 +1,30 @@
 <div class="col-xs-12" style="margin-bottom: 10px;">
 
   <div class="col-xs-4">
-    <a type="button" href="/log/timer" class="col-xs-12 btn btn-default">Timer</a>
+    <a type="button" id="timerSeg" href="/log/timer" class="col-xs-12 btn btn-default">Timer</a>
   </div>
 
   <div class="col-xs-4">
-    <a type="button" href="/log/list" class="col-xs-12 btn btn-default">Goals</a>
+    <a type="button" id="goalSeg" href="/log/list" class="col-xs-12 btn btn-default">Goals</a>
   </div>
 
   <div class="col-xs-4">
-    <a type="button" href="/log/newGoal" class="col-xs-12 btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+    <a type="button" id="addSeg" href="/log/newGoal" class="col-xs-12 btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
   </div>
 
 </div>
+
+
+<script>
+var url      = window.location.href;     // Returns full URL
+console.log(url);
+if(url.match('log/timer')){
+  $('#timerSeg').addClass('active')
+}
+if(url.match('log/list')){
+  $('#goalSeg').addClass('active')
+}
+if(url.match('log/newGoal')){
+  $('#addSeg').addClass('active')
+}
+</script>
