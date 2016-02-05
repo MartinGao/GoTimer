@@ -1,0 +1,78 @@
+<div id="footer-wrapper">
+	<div class="footer navbar-fixed-bottom">
+		<div class="container-fluid">
+			<div class="btn-group btn-group-justified" role="group" aria-label="...">
+			<div class="btn-group" role="group">
+				<a 
+					id="timer-button"
+					type="button" 
+					class="btn btn-lg btn-default my-nav-button" 
+					href="/log/timer"
+				>
+					Timer
+				</a>
+			</div>
+			<div class="btn-group" role="group">
+				<a 
+					id="goals-button"
+					type="button" 
+					class="btn btn-lg btn-default my-nav-button" 
+					href="/log/list" 
+				>
+					Goals
+				</a>
+			</div>
+			<div class="btn-group" role="group">
+				<a 
+					id="myday-button"
+					type="button" 
+					class="btn btn-lg btn-default my-nav-button" 
+					 href="/myday"
+				>
+					My Day
+				</a>
+			</div>
+			<div class="btn-group" role="group">
+				<a 
+					id="history-button"
+					type="button" 
+					class="btn btn-lg btn-default my-nav-button"
+					href="/history/index" 
+				>
+					History
+				</a>
+			</div>
+			<div class="btn-group" role="group">
+				<a 
+					id="settings-button"
+					type="button" 
+					class="btn btn-lg btn-default my-nav-button" 
+					href="/settings" 
+				>
+					Settings
+				</a>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+<script>
+	var url      = window.location.href;     // Returns full URL
+	console.log(url);
+	if (url.match('log/timer')){
+	  $('#timer-button').addClass('active');
+	} else if (url.match('log/list')) {
+	  $('#goals-button').addClass('active');
+	} else if (url.match('/myday')) {
+	  $('#myday-button').addClass('active');
+	} else if (url.match('/history/index')) {
+	  $('#history-button').addClass('active');
+	} else if (url.match('/settings')) {
+	  $('#settings-button').addClass('active');
+	} 
+</script>
+<style>
+.my-nav-button {
+	font-size: medium;
+}
+</style>
