@@ -17,7 +17,6 @@ module.exports = (app) => {
   app.route('/logs/newGoal')
     .post((req, res) => {
       console.log(req.body);
-
       Log.create({
         user: '507f1f77bcf86cd799439011',
         name: req.body.name,
@@ -29,6 +28,18 @@ module.exports = (app) => {
           res.send(newLog);
         }
       })
-
     });
+
+    app.route('/api/logs/list')
+      .get((req, res) => {
+        Log.find({
+          user: '507f1f77bcf86cd799439011',
+        },(err ,goals) => {
+          if (err) {
+            res.send(err);
+          } else {
+            res.send(goals);
+          }
+        })
+      });
 };
