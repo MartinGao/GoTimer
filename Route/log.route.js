@@ -65,6 +65,24 @@ module.exports = (app) => {
     })
   });
 
+  app.route('/api/logs/stop')
+  .get((req, res) => {
+    console.log('/api/logs/start is running!');
+    Log.findOneAndUpdate({
+      _id: req.query.id,
+    },{
+      ended: new Date()
+    },{
+      new: true
+    },(err ,newGoal) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(newGoal);
+      }
+    })
+  });
+
 
   app.route('/api/logs/delete')
   .delete((req, res) => {

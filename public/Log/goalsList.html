@@ -3,6 +3,11 @@
 
 <head>
   {% include "htmlHead.html" %}
+
+  <script src="../src/js/jquery.js"></script>
+  <link rel="stylesheet" href="../src/css/bootstrap.min.css">
+  <script src="../src/js/bootstrap.min.js"></script>
+
   <script src="../src/js/bind.min.js"></script>
   <script src="../src/js/lodash.min.js"></script>
   <script src="../src/js/moment.min.js"></script>
@@ -24,7 +29,6 @@
   </div>
 
 </body>
-<script src="https://code.jquery.com/jquery.js"></script>
 <script>
 
 
@@ -42,24 +46,45 @@
 
 
         str += '<div class="col-xs-12 small-padding">'
-        str += '<span>'+value.name+'</span>'
+        str += '<h5>'+value.name+'</h5>'
         str += '</div>'
 
         str += '<div class="col-xs-12 small-padding">'
-        str += '<span>Estimated Time: '+value.estimatedTime+'</span>'
+        str += '<span>Estimated Time: '+value.estimatedTime+' mins</span>'
         str += '</div>'
+
+
+
 
         str += '<div class="col-xs-12 small-padding">'
-        str += '<span>Started At: '+moment(value.started).format('YYYY-DD-MM hh:mm:ss')+'</span>'
+        str += '<span>Started At:'
+        if(value.started) str +=  '<span class="startedSpan"> '+moment(value.started).format('YYYY-DD-MM hh:mm:ss')+'</span>';
+        else str += '<span class="startedSpan"> Havent started yet</span>';
+        str += '</span>'
         str += '</div>'
-
         str += '</div>'
 
         str += '<div class="col-xs-4 small-padding">'
-        str += '<a type="button" go-timer-id="'+value._id+'" class="col-xs-12 btn btn-xs btn-success startBtn"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a>'
-        str += '<a type="button" go-timer-id="'+value._id+'" class="col-xs-12 btn btn-xs btn-warning stopBtn"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></a>'
-          str += '<a type="button" go-timer-id="'+value._id+'" class="col-xs-5 btn btn-xs btn-info editBtn" style="margin-top:5px;margin-right:5px;"><span class="glyphicon glyphicon-edit" aria-hidden="true"></a>'
-          str += '<a type="button" go-timer-id="'+value._id+'" class="col-xs-5 btn btn-xs btn-danger deleteBtn" style="margin-top:5px;margin-left:5px;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>'
+        if(value.started && !value.ended){
+          str += '<button style="display:none;" type="button" go-timer-id="'+value._id+'" class="col-xs-12 btn btn-xs btn-success startBtn"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>'
+          str += '<button type="button" go-timer-id="'+value._id+'" class="col-xs-12 btn btn-xs btn-warning stopBtn"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>'
+        }
+        else if(value.started && value.ended){
+          str += '<button disabled="disabled" style="display:none;" type="button" go-timer-id="'+value._id+'" class="col-xs-12 btn btn-xs btn-success startBtn"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>'
+          str += '<button disabled="disabled" type="button" go-timer-id="'+value._id+'" class="col-xs-12 btn btn-xs btn-warning stopBtn"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>'
+        }
+        else{
+          str += '<button type="button" go-timer-id="'+value._id+'" class="col-xs-12 btn btn-xs btn-success startBtn"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>'
+          str += '<button style="display:none;" type="button" go-timer-id="'+value._id+'" class="col-xs-12 btn btn-xs btn-warning stopBtn"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>'
+        }
+
+          str += '<div class="goal-edit-btns">'
+          str += '<button type="button" go-timer-id="'+value._id+'" class="col-xs-5 btn btn-xs btn-info editBtn" style="margin-top:5px;margin-right:16.6666667%;"><span class="glyphicon glyphicon-edit" aria-hidden="true"></button>'
+          str += '<button type="button" go-timer-id="'+value._id+'" class="col-xs-5 btn btn-xs btn-danger deleteBtn" style="margin-top:5px;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></button>'
+          str += '</div>'
+          str += '<div class="goal-timer">'
+          str += '<span class="actual-timer" go-timer-id="'+value._id+'" go-timer-duration='+value.duration+'>'+value.timerString+'</span>'
+          str += '</div>'
         str += '</div>'
 
         str += '</div>'
@@ -82,14 +107,19 @@
 
   function bindEverything(){
 
-    $('.stopBtn').hide();
-
     // Start Btn
     $('.startBtn').click(function(){
       console.log('About to startGoal -> ' + $(this).attr('go-timer-id'));
 
       $(this).parent().find('.stopBtn').show();
       $(this).hide();
+
+      $('.startBtn').attr('disabled', 'disabled');
+
+      $(this).parent().parent().find('.startedSpan').text(moment().format('YYYY-DD-MM hh:mm:ss'))
+
+      var timer = $(this).parent().parent().find('.actual-timer');
+      countUp(timer);
 
       $.ajax({
         url: "../api/logs/start",
@@ -103,10 +133,34 @@
       })
     });
 
+    // Stop Btn
+    $('.stopBtn').click(function(){
+      console.log('About to stop goal -> ' + $(this).attr('go-timer-id'));
+
+
+      // $(this).parent().find('.stopBtn').show();
+      $(this).attr('disabled', 'disabled');
+      $('.startBtn').removeAttr('disabled');
+      // $('.startBtn').attr('disabled', 'disabled');
+      //
+      // $(this).parent().parent().find('.startedSpan').text(moment().format('YYYY-DD-MM hh:mm:ss'))
+
+      $.ajax({
+        url: "../api/logs/stop",
+        type: 'GET',
+        data: {
+          id: $(this).attr('go-timer-id'),
+        },
+      })
+      .done(function(data) {
+        console.log(data);
+      })
+    });
+
     // Delete Btn
     $('.deleteBtn').click(function(){
       var goalId = $(this).attr('go-timer-id');
-      var div = $(this).parent().parent()
+      var div = $(this).parent().parent().parent()
       console.log('About to deleteGoal -> ' +goalId);
       $.ajax({
         url: "../api/logs/delete",
@@ -124,20 +178,60 @@
     });
   }
 
+  function secondsToString(seconds){
+    var hours = parseInt( seconds / 3600 ) % 24;
+    var minutes = parseInt( seconds / 60 ) % 60;
+    var seconds = seconds % 60;
+
+    return (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
+  }
+
+  function countUp(elem){
+    $(elem).attr('go-timer-duration',parseInt($(elem).attr('go-timer-duration'),10) + 1);
+    $(elem).text(secondsToString($(elem).attr('go-timer-duration')));
+    setTimeout(function() { countUp(elem); }, 1000);
+  }
+
   function fetch(){
+    var mightBeRunning = null;
     $.ajax({
       url: "../api/logs/list",
       type: 'GET',
     })
     .done(function(data) {
       console.log(data);
+      var newData = [];
       _.map(data,function(a){
         if(a.started && !a.ended){
+          mightBeRunning = a._id;
           console.log('One goal is running!')
+          $('.startBtn').attr('disabled', 'disabled');
         }
+
+        // Ended Goal
+        if(a.started && a.ended){
+          a.duration = moment(a.ended).unix() - moment(a.started).unix();
+        }
+        // Running Goal
+        else if(a.started && !a.ended){
+          a.duration = moment().unix() - moment(a.started).unix();
+        }
+        else{
+          a.duration = 0;
+        }
+
+        a.timerString = secondsToString(a.duration);
+
+        newData.push(a)
       })
-      $scope.goalsList = data;
+      $scope.goalsList = newData;
       bindEverything();
+      if(mightBeRunning){
+        $('.startBtn').attr('disabled', 'disabled');
+        var timer = $('.actual-timer[go-timer-id='+mightBeRunning+']');
+        console.log(timer);
+        countUp(timer);
+      }
     })
   }
 
