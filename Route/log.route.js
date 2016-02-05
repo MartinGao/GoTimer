@@ -12,34 +12,71 @@ module.exports = (app) => {
     res.render('log/goalsList.html');
   });
 
+  app.get('/log/timer', (req, res) => {
+    res.render('index.html');
+  });
+
 
   //Backend API
   app.route('/logs/newGoal')
-    .post((req, res) => {
-      console.log(req.body);
-      Log.create({
-        user: '507f1f77bcf86cd799439011',
-        name: req.body.name,
-        estimatedTime: req.body.estimatedTime,
-      },(err ,newLog) => {
-        if (err) {
-          res.send(err);
-        } else {
-          res.send(newLog);
-        }
-      })
-    });
+  .post((req, res) => {
+    console.log(req.body);
+    Log.create({
+      user: '507f1f77bcf86cd799439011',
+      name: req.body.name,
+      estimatedTime: req.body.estimatedTime,
+    },(err ,newLog) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(newLog);
+      }
+    })
+  });
 
-    app.route('/api/logs/list')
-      .get((req, res) => {
-        Log.find({
-          user: '507f1f77bcf86cd799439011',
-        },(err ,goals) => {
-          if (err) {
-            res.send(err);
-          } else {
-            res.send(goals);
-          }
-        })
-      });
+  app.route('/api/logs/list')
+  .get((req, res) => {
+    Log.find({
+      user: '507f1f77bcf86cd799439011',
+    },(err ,goals) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(goals);
+      }
+    })
+  });
+
+  app.route('/api/logs/start')
+  .get((req, res) => {
+    console.log('/api/logs/start is running!');
+    Log.findOneAndUpdate({
+      _id: req.query.id,
+    },{
+      started: new Date()
+    },{
+      new: true
+    },(err ,newGoal) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(newGoal);
+      }
+    })
+  });
+
+
+  app.route('/api/logs/delete')
+  .delete((req, res) => {
+    console.log('/api/logs/start is running!');
+    Log.findOneAndRemove({
+      _id: req.body.id,
+    },(err ,newGoal) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(newGoal);
+      }
+    })
+  });
 };

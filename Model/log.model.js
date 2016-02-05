@@ -15,6 +15,14 @@ const LogSchema = new Schema({
     type: Number,
     default: 0
   },
+  started: {
+    type: Date,
+    default: null,
+  },
+  ended: {
+    type: Date,
+    default: null,
+  },
 });
 
 export default mongoose.model('Log', LogSchema);

@@ -4,15 +4,20 @@
 <head>
   {% include "htmlHead.html" %}
   <script src="../src/js/bind.min.js"></script>
+  <script src="../src/js/lodash.min.js"></script>
+  <script src="../src/js/moment.min.js"></script>
 </head>
 
 <body>
   {% include "navBar.html" %}
+
+  {% include "Log/seg.html" %}
+
   <div class="container">
-    <h1>Goal List</h1>
 
 
     <div id="goalsList">
+
 
     </div>
 
@@ -30,11 +35,94 @@
     goalsList: {
       dom: '#goalsList',
       transform: function (value) {
-        return '<div> '+ value.name +' </div>';
+        var str = ''
+        str += '<div class="col-xs-12 well small-padding">'
+
+        str += '<div class="col-xs-8 small-padding">'
+
+
+        str += '<div class="col-xs-12 small-padding">'
+        str += '<span>'+value.name+'</span>'
+        str += '</div>'
+
+        str += '<div class="col-xs-12 small-padding">'
+        str += '<span>Estimated Time: '+value.estimatedTime+'</span>'
+        str += '</div>'
+
+        str += '<div class="col-xs-12 small-padding">'
+        str += '<span>Started At: '+moment(value.started).format('YYYY-DD-MM hh:mm:ss')+'</span>'
+        str += '</div>'
+
+        str += '</div>'
+
+        str += '<div class="col-xs-4 small-padding">'
+        str += '<a type="button" go-timer-id="'+value._id+'" class="col-xs-12 btn btn-xs btn-success startBtn"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></a>'
+        str += '<a type="button" go-timer-id="'+value._id+'" class="col-xs-12 btn btn-xs btn-warning stopBtn"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></a>'
+          str += '<a type="button" go-timer-id="'+value._id+'" class="col-xs-5 btn btn-xs btn-info editBtn" style="margin-top:5px;margin-right:5px;"><span class="glyphicon glyphicon-edit" aria-hidden="true"></a>'
+          str += '<a type="button" go-timer-id="'+value._id+'" class="col-xs-5 btn btn-xs btn-danger deleteBtn" style="margin-top:5px;margin-left:5px;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a>'
+        str += '</div>'
+
+        str += '</div>'
+
+        return str;
       },
     }
   });
 
+
+  function startGoal(id){
+    // $.ajax({
+    //   url: "../api/logs/start",
+    //   type: 'GET',
+    // })
+    // .done(function(data) {
+    //   console.log(data);
+    // })
+  }
+
+  function bindEverything(){
+
+    $('.stopBtn').hide();
+
+    // Start Btn
+    $('.startBtn').click(function(){
+      console.log('About to startGoal -> ' + $(this).attr('go-timer-id'));
+
+      $(this).parent().find('.stopBtn').show();
+      $(this).hide();
+
+      $.ajax({
+        url: "../api/logs/start",
+        type: 'GET',
+        data: {
+          id: $(this).attr('go-timer-id'),
+        },
+      })
+      .done(function(data) {
+        console.log(data);
+      })
+    });
+
+    // Delete Btn
+    $('.deleteBtn').click(function(){
+      var goalId = $(this).attr('go-timer-id');
+      var div = $(this).parent().parent()
+      console.log('About to deleteGoal -> ' +goalId);
+      $.ajax({
+        url: "../api/logs/delete",
+        type: 'DELETE',
+        data: {
+          id: goalId,
+        },
+      })
+      .done(function(data) {
+        if(data._id == goalId){
+          alert('You just deleted a goal! Cong!');
+          div.remove();
+        }
+      })
+    });
+  }
 
   function fetch(){
     $.ajax({
@@ -43,12 +131,27 @@
     })
     .done(function(data) {
       console.log(data);
+      _.map(data,function(a){
+        if(a.started && !a.ended){
+          console.log('One goal is running!')
+        }
+      })
       $scope.goalsList = data;
+      bindEverything();
     })
   }
+
+
 
   fetch();
 
 </script>
+
+<style>
+.small-padding{
+  padding-left: 5px;
+  padding-right: 5px;
+}
+</style>
 
 </html>
