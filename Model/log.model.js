@@ -23,6 +23,10 @@ const LogSchema = new Schema({
     type: Date,
     default: null,
   },
+  category: {
+    type: String,
+    default: 'other',
+  }
 });
 
 export default mongoose.model('Log', LogSchema);

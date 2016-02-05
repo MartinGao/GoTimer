@@ -25,9 +25,9 @@ module.exports = (app) => {
       user: '507f1f77bcf86cd799439011',
       name: req.body.name,
       estimatedTime: req.body.estimatedTime,
-    },(err ,newLog) => {
+    }, (err, newLog) => {
       if (err) {
-        res.send(err);
+        res.status(400).send(err);
       } else {
         res.send(newLog);
       }
