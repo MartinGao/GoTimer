@@ -5,7 +5,7 @@ module.exports = (app) => {
 
   //Frontend Route
   app.get('/history/index', (req, res) => {
-    res.render('history/index.html');
+    res.render('History/index.html');
   });
 
 

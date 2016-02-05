@@ -5,11 +5,11 @@ module.exports = (app) => {
 
   //Frontend Route
   app.get('/log/newGoal', (req, res) => {
-    res.render('log/newGoal.html');
+    res.render('Log/newGoal.html');
   });
 
   app.get('/log/list', (req, res) => {
-    res.render('log/goalsList.html');
+    res.render('Log/goalsList.html');
   });
 
   app.get('/log/timer', (req, res) => {
