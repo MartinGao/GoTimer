@@ -33,15 +33,17 @@ nunjucks.configure('public', {
   express: app,
 });
 
+app.get('/myday', (req, res) => {
+  res.render('myday.html');
+});
+
+app.get('/settings', (req, res) => {
+  res.render('settings.html');
+});
 
 app.get('/', (req, res) => {
   res.render('index.html');
 });
-
-app.get('/privacy', (req, res) => {
-  res.render('privacy.html');
-});
-
 
 app.get('/src/:parentPath/:path', function(req, res){
   let path        = req.params.path;

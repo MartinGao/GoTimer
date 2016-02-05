@@ -1,20 +1,23 @@
 var timers = Array.apply(null, Array(5));
 
 function startTimer(element) {
-  if (element.innerText.match(/Start/)) {
-    element.innerHTML = "<span class='glyphicon glyphicon-stop' aria-hidden='true'></span> Stop";
-  } else {
-    var buttonIndex = jQuery(element).index('.timer-button');
-    clearTimeout(timers[buttonIndex]);
-    element.innerHTML = "<span class='glyphicon glyphicon-play' aria-hidden='true'></span> Start";
-    return;
+  var result = confirm("Would you like to " + element.innerText.toLowerCase() + ' this timer?');
+  if (result) {
+    if (element.innerText.match(/Start/)) {
+      element.innerHTML = "<span class='glyphicon glyphicon-stop' aria-hidden='true'></span> Stop";
+    } else {
+      var buttonIndex = jQuery(element).index('.timer-button');
+      clearTimeout(timers[buttonIndex]);
+      element.innerHTML = "<span class='glyphicon glyphicon-play' aria-hidden='true'></span> Start";
+      return;
+    }
+
+    var timerElement = jQuery(element).prev('.timer')[0];
+    timerElement.innerHTML = '00:00:00';
+    var timerIndex = jQuery(timerElement).index('.timer');
+
+    countUp({start: new Date(), element: timerElement, timerIndex: timerIndex});
   }
-
-  var timerElement = jQuery(element).prev('.timer')[0];
-  timerElement.innerHTML = '00:00:00';
-  var timerIndex = jQuery(timerElement).index('.timer');
-
-  countUp({start: new Date(), element: timerElement, timerIndex: timerIndex});
 }
 
 function countUp(timer) {
