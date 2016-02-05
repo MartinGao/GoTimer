@@ -1,5 +1,8 @@
 import express from 'express';
 import nunjucks from 'nunjucks';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import chalk from 'chalk';
 
 const app = express();
 
@@ -11,6 +14,17 @@ app.get('/src/:parentPath/:path', (req, res) => {
   const parentPath = req.params.parentPath;
   res.sendFile(parentPath + '/' + path, { root: './src/' });
 });
+
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+import LogModel from './Model/log.model';
+LogModel(app);
+
+import LogRoute from './Route/log.route';
+LogRoute(app);
+
 
 nunjucks.configure('public', {
   autoescape: true,
@@ -26,7 +40,23 @@ app.get('/privacy', (req, res) => {
   res.render('privacy.html');
 });
 
+
+app.get('/src/:parentPath/:path', function(req, res){
+  let path        = req.params.path;
+  let parentPath  = req.params.parentPath;
+  res.sendFile(parentPath + '/' + path, {root: './src/'});
+});
+
 //  The 404 Route (ALWAYS Keep this as the last route)
 app.get('*', (req, res) => {
   res.status(404).render('404.html');
+});
+
+mongoose.connect('mongodb://db.siriolabs.com/go-timer-dev', (err) => {
+  if (err) {
+    console.error(chalk.red('Could not connect to MongoDB!'));
+    console.log(chalk.red(err));
+  } else {
+    console.log(chalk.green('Successfully connect to MongoDB!'));
+  }
 });
