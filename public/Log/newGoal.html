@@ -23,14 +23,28 @@
     <h1>New Goal</h1>
 
       <div class="form-group">
-        <label for="exampleInputEmail1">Goal Name</label>
+        <label for="nameField">Goal Name</label>
         <input type="text" class="form-control" id="nameField" placeholder="Required">
       </div>
       <div class="form-group">
-        <label for="exampleInputPassword1">Estimate Time</label>
+        <label for="categoryField">Category</label>
+        <select class="form-control" id="categoryField" placeholder="Required">
+          <option value="Eat">Eat</option>
+          <option value="Entertainment">Entertainment</option>
+          <option value="Housework">Housework</option>
+          <option value="Sport">Sport</option>
+          <option value="Sleep">Sleep</option>
+          <option value="Study">Study</option>
+          <option value="Sport">Transport</option>
+          <option value="Sport">Work</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="estimatedTimeField">Estimate Time</label>
         <input type="number" class="form-control" id="estimatedTimeField" placeholder="In Minutes (Optional)">
       </div>
       <button class="btn btn-default" onClick="submit()">Submit</button>
+      <button class="btn btn-default" onClick="back()">Back</button>
 
   </div>
 
@@ -41,7 +55,7 @@
 
   function submit(){
     $.ajax({
-      url: "../logs/newGoal",
+      url: "/logs/newGoal",
       type: 'POST',
       data: {
         name: $('#nameField').val(),
@@ -52,6 +66,13 @@
       console.log(data);
       window.location = "/log/list";
     })
+    .error(function() {
+      alert('Your input is invalid.');
+    })
+  }
+
+  function back() {
+    window.location = "/log/list";
   }
 
 </script>
