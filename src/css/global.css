@@ -1,0 +1,9 @@
+.small-padding{
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.no-padding{
+  padding-left: 0px;
+  padding-right: 0px;
+}

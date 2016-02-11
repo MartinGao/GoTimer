@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="../src/css/bootstrap.min.css">
   <script src="../src/js/bootstrap.min.js"></script>
   <script src="../src/js/chart.min.js"></script>
+  <link rel="stylesheet" href="../src/css/global.css">
 
 </head>
 
@@ -18,10 +19,16 @@
   {% include "navBar.html" %}
 
 
+  {% include "History/seg.html" %}
+
   <div class="container">
 
     <h1>History</h1>
 
+    <div class="form-group">
+      <label for="nameField">Date</label>
+      <input type="date" class="form-control" id="dateField" placeholder="Date">
+    </div>
 
     <canvas id="myChart" width="400" height="400"></canvas>
 

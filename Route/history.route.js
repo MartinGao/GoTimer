@@ -8,6 +8,10 @@ module.exports = (app) => {
     res.render('History/index.html');
   });
 
+  app.get('/history/my24h', (req, res) => {
+    res.render('History/my24h.html');
+  });
+
 
 
 };
