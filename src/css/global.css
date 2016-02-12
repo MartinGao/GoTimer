@@ -7,3 +7,10 @@
   padding-left: 0px;
   padding-right: 0px;
 }
+
+
+.middle {
+  margin-left: auto;
+  margin-right: auto;
+  display: block
+}

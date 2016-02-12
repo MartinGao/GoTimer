@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+
+  {% include "htmlHead.html" %}
+
+  <script src="../src/js/jquery.js"></script>
+  <link rel="stylesheet" href="../src/css/bootstrap.min.css">
+  <script src="../src/js/bootstrap.min.js"></script>
+  <script src="../src/js/chart.min.js"></script>
+  <script src="/src/js/bind.min.js"></script>
+  <script src="/src/js/moment.min.js"></script>
+
+</head>
+
+
+<body>
+
+  {% include "navBar.html" %}
+
+  <div class="container">
+
+    {% include "History/seg.html" %}
+
+    {% include "History/datePicker.html" %}
+
+    <div class="col-xs-12">
+      <canvas class="middle" id="myChart" width="200" height="200"></canvas>
+    </div>
+  </div>
+
+  {% include "tabBar.html" %}
+</body>
+<script>
+
+
+
+var $scope = Bind({
+  selectedDayString : moment().format('MMMM DD YYYY'),
+},{
+  selectedDayString : '#selectedDayStringTextField',
+  }
+)
+
+var data = [
+    {
+        value: 300,
+        color:"#F7464A",
+        highlight: "#FF5A5E",
+        label: "Red"
+    },
+    {
+        value: 50,
+        color: "#46BFBD",
+        highlight: "#5AD3D1",
+        label: "Green"
+    },
+    {
+        value: 100,
+        color: "#FDB45C",
+        highlight: "#FFC870",
+        label: "Yellow"
+    }
+]
+
+var ctx = $("#myChart").get(0).getContext("2d");
+var myDoughnutChart = new Chart(ctx).Doughnut(data);
+
+</script>
+
+</html>

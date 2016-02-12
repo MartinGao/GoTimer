@@ -9,7 +9,7 @@
   <script src="/src/js/bootstrap.min.js"></script>
   <!-- <link rel="stylesheet" href="/src/css/animated.min.css">
 
-  <script src="/src/js/bind.min.js"></script>
+  <!-- <script src="/src/js/bind.min.js"></script> -->
   <script src="/src/js/lodash.min.js"></script>
   <script src="/src/js/wow.min.js"></script> -->
   <script src="/src/js/moment.min.js"></script>
@@ -24,9 +24,11 @@
 <body>
   {% include "navBar.html" %}
 
-  {% include "History/seg.html" %}
-
   <div class="container" style="margin-bottom: 100px;">
+
+    {% include "History/seg.html" %}
+
+    {% include "History/datePicker.html" %}
 
     <div id='calendar'></div>
 
@@ -36,13 +38,21 @@
 </body>
 
 <script>
+
+var $scope = Bind({
+  selectedDayString : moment().format('MMMM DD YYYY'),
+},{
+  selectedDayString : '#selectedDayStringTextField',
+  }
+)
+
 $(document).ready(function() {
 
   $('#calendar').fullCalendar({
     header: {
       left: '',
       // left: 'prev,next today',
-      center: 'title',
+      center: '',
       right: ''
     },
     allDaySlot: false,
