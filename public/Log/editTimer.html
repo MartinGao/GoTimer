@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+
+  {% include "htmlHead.html" %}
+
+  <script src="/src/js/jquery.js"></script>
+  <link rel="stylesheet" href="../src/css/bootstrap.min.css">
+  <script src="../src/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/6.0.16/css/bootstrap-slider.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/6.0.16/bootstrap-slider.min.js"></script>
+
+
+</head>
+
+
+<body>
+
+  {% include "navBar.html" %}
+
+
+
+  <div class="container">
+    <h2>Estimate hours for a week:</h2>
+
+  {% for slider in sliders %}  
+  <div class="row">
+    <div>
+      <span id="sliderValLabel">{{slider.name}} : <span id="sliderVal-{{slider.name}}" class="slider-val">0</span></span>
+      <input id="slider-{{slider.name}}" data-slider-id='dslider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="0" />
+
+    </div>
+    </div>
+  {% endfor %}
+
+  <h4><span>The total estimated time is <span id="total-value">0</span>/168 hours.</span></h4>
+
+  <div class="buttons">
+    <button class="btn btn-default" onClick="submit()">Submit</button>
+    <button class="btn btn-default" onClick="back()">Back</button>
+  </div>
+  </div>
+
+</body>
+<script src="https://code.jquery.com/jquery.js"></script>
+<script>
+  {% for slider in sliders %}
+    var slider = new Slider("#slider-{{slider.name}}");
+    slider.on("slide", function(slideEvt) {
+      $("#sliderVal-{{slider.name}}").text(slideEvt);
+      calculateVal();
+    });
+  {% endfor %}
+
+  function calculateVal() {
+    var sum = 0;
+    $(".slider-val").each(function (index, elmt) {
+      sum += parseInt(elmt.innerText);
+    });
+
+    $("#total-value").text(sum.toString());
+  }
+
+  function submit(){
+    window.location = "/log/timer";
+  }
+
+  function back() {
+    window.location = "/log/timer";
+  }
+
+</script>
+<style>
+#dslider {margin-left: 40px};
+</html>

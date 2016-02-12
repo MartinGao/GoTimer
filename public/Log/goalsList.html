@@ -13,8 +13,6 @@
   <script src="/src/js/lodash.min.js"></script>
   <script src="/src/js/moment.min.js"></script>
   <script src="/src/js/wow.min.js"></script>
-  <link rel="stylesheet" href="../src/css/global.css">
-
 </head>
 
 <body>
@@ -22,6 +20,7 @@
 
   {% include "Log/seg.html" %}
 
+  <div class="container">
 
 
     <div id="goalsList">
@@ -29,6 +28,7 @@
 
     </div>
 
+  </div>
 
   {% include "tabBar.html" %}
 </body>
@@ -45,18 +45,18 @@
         var str = ''
 
         if(value.started && !value.ended){
-          str += '<div class="col-xs-12 cell no-padding runningWall">'
+          str += '<div class="col-xs-12 well small-padding runningWall">'
         }
         else if(value.started && value.ended){
-          str += '<div class="col-xs-12 cell no-padding endedWall">'
+          str += '<div class="col-xs-12 well small-padding endedWall">'
         }
         else{
-          str += '<div class="col-xs-12 cell no-padding waitingWall">'
+          str += '<div class="col-xs-12 well small-padding waitingWall">'
         }
 
 
         // Start of Left Info Panel col-8
-        str += '<div class="col-xs-8 no-padding">'
+        str += '<div class="col-xs-8 small-padding">'
 
         // Name
         str += '<div class="col-xs-12 small-padding">'
@@ -64,7 +64,7 @@
         str += '</div>'
 
         // Titles
-        str += '<div class="col-xs-6 small-padding">'
+        str += '<div class="col-xs-4 small-padding">'
 
           str += '<div class="col-xs-12 small-padding">'
           str += '<span>Est. Time: </span>'
@@ -75,17 +75,17 @@
           str += '</div>'
 
           str += '<div class="col-xs-12 small-padding">'
-          str += '<span>Started: </span>'
+          str += '<span>Started At: </span>'
           str += '</div>'
 
           str += '<div class="col-xs-12 small-padding">'
-          str += '<span>Ended: </span>'
+          str += '<span>Ended At: </span>'
           str += '</div>'
 
         str += '</div>'
 
         // Start Tag of Values col-8
-        str += '<div class="col-xs-6 small-padding">'
+        str += '<div class="col-xs-8 small-padding">'
           str += '<div class="col-xs-12 small-padding">'
           str +=  value.estimatedTime+' mins';
           str += '</div>'
@@ -95,12 +95,12 @@
           str += '</div>'
 
           str += '<div class="col-xs-12 small-padding">'
-          if(value.started) str +=  '<span class="startedSpan"> '+moment(value.started).format('YYYY-DD-MM hh:mm:ss')+'</span>';
+          if(value.started) str +=  '<span class="startedSpan"> '+moment(value.started).format('YYYY-MM-DD hh:mm:ss')+'</span>';
           else str += '<span class="startedSpan"> N/A </span>';
           str += '</div>'
 
           str += '<div class="col-xs-12 small-padding">'
-          if(value.started) str +=  '<span class="endedSpan"> '+moment(value.ended).format('YYYY-DD-MM hh:mm:ss')+'</span>';
+          if(value.started) str +=  '<span class="endedSpan"> '+moment(value.ended).format('YYYY-MM-DD hh:mm:ss')+'</span>';
           else str += '<span class="endedSpan"> N/A </span>';
           str += '</div>'
 

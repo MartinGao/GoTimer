@@ -7,12 +7,37 @@
 	{
 		"activity": "Entertainment",
 		"width": "100%",
-		"goal": 40
+		"goal": 30
 	},
 	{
 		"activity": "Housework",
 		"width": "20%",
 		"goal": 5
+	},
+	{
+		"activity": "Sport",
+		"width": "40%",
+		"goal": 10
+	},
+	{
+		"activity": "Sleep",
+		"width": "60%",
+		"goal": 50
+	},
+	{
+		"activity": "Study",
+		"width": "20%",
+		"goal": 30
+	},
+	{
+		"activity": "Transport",
+		"width": "20%",
+		"goal": 5
+	},
+	{
+		"activity": "Work",
+		"width": "60%",
+		"goal": 10
 	}
 ]
 

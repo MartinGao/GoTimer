@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 const Log = mongoose.model('Log');
 const timers = require('../timer.json');
+const sliders = require('../sliders.json');
 
 module.exports = (app) => {
 
@@ -17,6 +18,9 @@ module.exports = (app) => {
     res.render('index.html', { items: timers });
   });
 
+  app.get('/log/editTimer', (req, res) => {
+    res.render('Log/editTimer.html', { sliders: sliders });
+  });
 
   //Backend API
   app.route('/logs/newGoal')
