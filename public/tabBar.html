@@ -9,7 +9,7 @@
 					class="btn btn-lg btn-default my-nav-button"
 					href="/log/timer"
 				>
-					Timers
+					<span class='tabBarTitle'>Timers</span>
 				</a>
 			</div>
 			<div class="btn-group" role="group">
@@ -19,7 +19,8 @@
 					class="btn btn-lg btn-default my-nav-button"
 					href="/log/list"
 				>
-					Goals
+				<span class='tabBarTitle'>Goals</span>
+
 				</a>
 			</div>
 			<div class="btn-group" role="group">
@@ -27,9 +28,9 @@
 					id="myday-button"
 					type="button"
 					class="btn btn-lg btn-default my-nav-button"
-					 href="/myday"
+					 href="/achievement/friends"
 				>
-					Achievement
+					<span class='tabBarTitle'>Friends</span>
 				</a>
 			</div>
 			<div class="btn-group" role="group">
@@ -39,7 +40,7 @@
 					class="btn btn-lg btn-default my-nav-button"
 					href="/history/list"
 				>
-					History
+				<span class='tabBarTitle'>History</span>
 				</a>
 			</div>
 			<div class="btn-group" role="group">
@@ -47,9 +48,9 @@
 					id="settings-button"
 					type="button"
 					class="btn btn-lg btn-default my-nav-button"
-					href="/settings"
+					href="/setting/profile"
 				>
-					Settings
+				<span class='tabBarTitle'>Settings</span>
 				</a>
 			</div>
 		</div>
@@ -72,6 +73,12 @@
 	}
 </script>
 <style>
+
+.tabBarTitle{
+	margin-left: -6%;
+	font-size: 90%;
+}
+
 .my-nav-button {
 	font-size: medium;
 }

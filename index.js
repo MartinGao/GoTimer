@@ -24,8 +24,12 @@ LogModel(app);
 
 import LogRoute from './Route/log.route';
 import HistoryRoute from './Route/history.route';
+import AchievementRoute from './Route/achievement.route';
+import SettingRoute from './Route/setting.route';
 LogRoute(app);
 HistoryRoute(app);
+AchievementRoute(app);
+SettingRoute(app);
 
 
 nunjucks.configure('public', {
