@@ -26,7 +26,19 @@
     {% include "History/datePicker.html" %}
 
     <div class="col-xs-12">
-      <canvas class="middle" id="myChart" width="200" height="200"></canvas>
+
+      <canvas class="middle" id="myChart" max-width="100%" max-height="100%"></canvas>
+
+    </div>
+
+    <div class="col-xs-8 col-xs-offset-2">
+
+      <div class="middle" id="legend">
+      </div>
+
+
+    </div>
+
     </div>
   </div>
 
@@ -45,30 +57,8 @@ var $scope = Bind({
   }
 )
 
-var data = [
-    {
-        value: 300,
-        color:"#F7464A",
-        highlight: "#FF5A5E",
-        label: "Red"
-    },
-    {
-        value: 50,
-        color: "#46BFBD",
-        highlight: "#5AD3D1",
-        label: "Green"
-    },
-    {
-        value: 100,
-        color: "#FDB45C",
-        highlight: "#FFC870",
-        label: "Yellow"
-    }
-]
-
-var ctx = $("#myChart").get(0).getContext("2d");
-var myDoughnutChart = new Chart(ctx).Doughnut(data);
-
 </script>
+
+<script src="/src/js/history.chart.js"></script>
 
 </html>
