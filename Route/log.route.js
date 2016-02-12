@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 const Log = mongoose.model('Log');
+const timers = require('../timer.json');
 
 module.exports = (app) => {
 
@@ -13,7 +14,7 @@ module.exports = (app) => {
   });
 
   app.get('/log/timer', (req, res) => {
-    res.render('index.html');
+    res.render('index.html', { items: timers });
   });
 
 

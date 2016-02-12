@@ -6,6 +6,8 @@ import chalk from 'chalk';
 
 const app = express();
 
+const timers = require('./timer.json');
+
 app.listen(3000, () => {
   console.log('Application listening on port 3000!');
 });
@@ -42,7 +44,7 @@ app.get('/settings', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.render('index.html');
+  res.render('index.html', { items: timers });
 });
 
 app.get('/src/:parentPath/:path', function(req, res){

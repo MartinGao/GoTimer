@@ -59,9 +59,7 @@
 <script>
 	var url      = window.location.href;     // Returns full URL
 	console.log(url);
-	if (url.match('log/timer')){
-	  $('#timer-button').addClass('active');
-	} else if (url.match('log/list')) {
+	if (url.match('log/list')) {
 	  $('#goals-button').addClass('active');
 	} else if (url.match('/myday')) {
 	  $('#myday-button').addClass('active');
@@ -69,6 +67,9 @@
 	  $('#history-button').addClass('active');
 	} else if (url.match('/settings')) {
 	  $('#settings-button').addClass('active');
+	} else if (url.match('log/timer') || url.match('')){
+	  $('#timer-button').addClass('active');
+	  $('#page-title').text('Timers');
 	}
 </script>
 <style>
