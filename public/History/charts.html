@@ -37,9 +37,11 @@
 
 
 var $scope = Bind({
-  selectedDayString : moment().format('MMMM DD YYYY'),
+  selectedDayStringLabel : moment().format('MMMM DD YYYY'),
+  selectedDayStringTextField : moment().format('MMMM DD YYYY'),
 },{
-  selectedDayString : '#selectedDayStringTextField',
+  selectedDayStringLabel : '#selectedDayStringLabel',
+  selectedDayStringTextField : '#selectedDayStringTextField',
   }
 )
 
