@@ -12,7 +12,7 @@
   <div class="col-xs-4 small-padding">
 
     <div class="form-group">
-        <a type="button" id="addSeg" href="charts" class="small-padding col-xs-12 btn btn-info">Update</a>
+        <a type="button" id="addSeg" href="#" onClick="updateDate()" class="small-padding col-xs-12 btn btn-info">Update</a>
     </div>
 
   </div>
@@ -21,3 +21,20 @@
 <div class="col-xs-12">
   <h3 style="text-align:center" id="selectedDayStringLabel"></h3>
 </div>
+
+<script src="../src/js/notie.js"></script>
+
+<script>
+function updateDate(){
+  notie.alert(1, 'New Date Selected!', 1.5);
+
+  $scope.selectedDayStringLabel =  moment($('#selectedDayStringTextField').val()).format('MMMM DD YYYY');
+  $scope.selectedDayStringTextField = moment($('#selectedDayStringTextField').val()).format('MMMM DD YYYY');
+
+  myDoughnutChart.segments[0].value = Math.floor(Math.random() * 200) + 1  ;
+  myDoughnutChart.segments[1].value = Math.floor(Math.random() * 200) + 1  ;
+  myDoughnutChart.segments[2].value = Math.floor(Math.random() * 200) + 1  ;
+
+  myDoughnutChart.update();
+}
+</script>
