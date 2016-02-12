@@ -12,6 +12,7 @@
 					<span class='tabBarTitle'>Timers</span>
 				</a>
 			</div>
+
 			<div class="btn-group" role="group">
 				<a
 					id="goals-button"
@@ -23,16 +24,7 @@
 
 				</a>
 			</div>
-			<div class="btn-group" role="group">
-				<a
-					id="myday-button"
-					type="button"
-					class="btn btn-lg btn-default my-nav-button"
-					 href="/achievement/friends"
-				>
-					<span class='tabBarTitle'>Friends</span>
-				</a>
-			</div>
+
 			<div class="btn-group" role="group">
 				<a
 					id="history-button"
@@ -43,6 +35,18 @@
 				<span class='tabBarTitle'>History</span>
 				</a>
 			</div>
+
+			<div class="btn-group" role="group">
+				<a
+					id="achievement-button"
+					type="button"
+					class="btn btn-lg btn-default my-nav-button"
+					 href="/achievement/friends"
+				>
+					<span class='tabBarTitle'>Ranking</span>
+				</a>
+			</div>
+
 			<div class="btn-group" role="group">
 				<a
 					id="settings-button"
@@ -63,13 +67,13 @@
 	if (url.match('log/list')) {
 	  $('#goals-button').addClass('active');
 	  $('#page-title').text('Goals');
-	} else if (url.match('/myday')) {
-	  $('#myday-button').addClass('active');
-	  $('#page-title').text('Achievement');
-	} else if (url.match('/history/*')) {
+	} else if (url.match('/achievement*')) {
+	  $('#achievement-button').addClass('active');
+	  $('#page-title').text('Ranking');
+	} else if (url.match('/history*')) {
 	  $('#history-button').addClass('active');
 	  $('#page-title').text('History');
-	} else if (url.match('/settings')) {
+	} else if (url.match('/setting*')) {
 	  $('#settings-button').addClass('active');
 	  $('#page-title').text('Settings');
 	} else if (url.match('log/timer') || url.match('')){
