@@ -61,12 +61,16 @@
 	console.log(url);
 	if (url.match('log/list')) {
 	  $('#goals-button').addClass('active');
+	  $('#page-title').text('Goals');
 	} else if (url.match('/myday')) {
 	  $('#myday-button').addClass('active');
-	} else if (url.match('/history/index')) {
+	  $('#page-title').text('Achievement');
+	} else if (url.match('/history/*')) {
 	  $('#history-button').addClass('active');
+	  $('#page-title').text('History');
 	} else if (url.match('/settings')) {
 	  $('#settings-button').addClass('active');
+	  $('#page-title').text('Settings');
 	} else if (url.match('log/timer') || url.match('')){
 	  $('#timer-button').addClass('active');
 	  $('#page-title').text('Timers');
