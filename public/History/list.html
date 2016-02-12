@@ -24,6 +24,9 @@
 
     {% include "History/datePicker.html" %}
 
+    <div id="list">
+
+    </div>
 
   </div>
 
@@ -40,6 +43,58 @@ var $scope = Bind({
   }
 )
 
+  var $scope = Bind({
+    list: [{
+      name: 'Review CSE170',
+      duration: '15 mins',
+      started: moment([2010, 1, 14, 15, 25, 50, 125]).format('YYYY-DD-MM hh:mm:ss'),
+      finished: moment([2010, 1, 14, 15, 25, 50, 125]).add('15','mins').format('YYYY-DD-MM hh:mm:ss'),
+    },{
+      name: 'Enroll Class',
+      duration: '5 mins',
+      started: moment([2010, 1, 14, 15, 25, 50, 125]).format('YYYY-DD-MM hh:mm:ss'),
+      finished: moment([2010, 1, 14, 15, 25, 50, 125]).add('5','mins').format('YYYY-DD-MM hh:mm:ss'),
+    },{
+      name: 'Gym Time',
+      duration: '60 mins',
+      started: moment([2010, 1, 14, 15, 25, 50, 125]).format('YYYY-DD-MM hh:mm:ss'),
+      finished: moment([2010, 1, 14, 15, 25, 50, 125]).add('60','mins').format('YYYY-DD-MM hh:mm:ss'),
+    }]
+  }, {
+    list: {
+      dom: '#list',
+      transform: function (value) {
+        var str = ''
+
+        str += '<div class="cell">'
+
+        // Start of Left Info Panel col-8
+
+        // Name
+
+        str += '<div class="col-xs-3 small-padding">'
+        str += '<h5>'+value.name+'</h5>'
+        str += '</div>'
+
+        str += '<div class="col-xs-3 small-padding">'
+        str += '<h5>'+value.duration+'</h5>'
+        str += '</div>'
+
+
+        str += '<div class="col-xs-3 small-padding">'
+        str += '<h5>'+value.started+'</h5>'
+        str += '</div>'
+
+        str += '<div class="col-xs-3 small-padding">'
+        str += '<h5>'+value.finished+'</h5>'
+        str += '</div>'
+
+        str += '</div>'
+
+        return str;
+      },
+    }
+  });
 
 </script>
 
