@@ -1,0 +1,18 @@
+[
+	{
+		"activity": "Eat",
+		"width": "60%",
+		"goal": 20
+	},
+	{
+		"activity": "Entertainment",
+		"width": "100%",
+		"goal": 40
+	},
+	{
+		"activity": "Housework",
+		"width": "20%",
+		"goal": 5
+	}
+]
+

@@ -20,174 +20,29 @@
 
   <div class="container">
   <div class="row">
-
     <div class="col-xs-12">
 
+      {% for item in items %}
       <div class="col-xs-6 col-sm-4">
         <div class="activityIconContainer">
-
-          <p id="sleep" class="timer col-xs-12">
+          <p id="{{item.activity}}" class="timer col-xs-12">
             00:00:00
           </p>
-
-
-
           <button type="button" class="btn btn-default btn-sm middle timer-button" onclick="startTimer(this)">
             <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start
           </button>
-
+          <div class="progress go-timer-progess-bar">
+            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:{{item.width}};">
+              {{item.width}}
+            </div>
+          </div>
           <p class="activityName">
-            Eat
+            {{item.activity}}
           </p>
-
         </div>
       </div>
-
-      <div class="col-xs-6 col-sm-4">
-        <div class="activityIconContainer">
-
-          <p class="timer col-xs-12">
-            00:00:00
-          </p>
-
-
-
-          <button type="button" class="btn btn-default btn-sm middle timer-button" onclick="startTimer(this)">
-            <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start
-          </button>
-
-          <p class="activityName">
-            Entertainment
-          </p>
-
-        </div>
-      </div>
-
-      <div class="col-xs-6 col-sm-4">
-        <div class="activityIconContainer">
-
-          <p class="timer col-xs-12">
-            00:00:00
-          </p>
-
-
-
-          <button type="button" class="btn btn-default btn-sm middle timer-button" onclick="startTimer(this)">
-            <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start
-          </button>
-
-          <p class="activityName">
-            Housework
-          </p>
-
-        </div>
-      </div>
-
-      <div class="col-xs-6 col-sm-4">
-        <div class="activityIconContainer">
-
-          <p class="timer col-xs-12">
-            00:00:00
-          </p>
-
-
-
-          <button type="button" class="btn btn-default btn-sm middle timer-button" onclick="startTimer(this)">
-            <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start
-          </button>
-
-          <p class="activityName">
-            Sport
-          </p>
-
-        </div>
-      </div>
-
-      <div class="col-xs-6 col-sm-4">
-        <div class="activityIconContainer">
-
-          <p class="timer col-xs-12">
-            00:00:00
-          </p>
-
-
-
-          <button type="button" class="btn btn-default btn-sm middle timer-button" onclick="startTimer(this)">
-            <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start
-          </button>
-
-          <p class="activityName">
-            Sleep
-          </p>
-
-        </div>
-      </div>
-
-      <div class="col-xs-6 col-sm-4">
-        <div class="activityIconContainer">
-
-          <p class="timer col-xs-12">
-            00:00:00
-          </p>
-
-
-
-          <button type="button" class="btn btn-default btn-sm middle timer-button" onclick="startTimer(this)">
-            <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start
-          </button>
-
-          <p class="activityName">
-            Study
-          </p>
-
-        </div>
-      </div>
-
-      <div class="col-xs-6 col-sm-4">
-        <div class="activityIconContainer">
-
-          <p class="timer col-xs-12">
-            00:00:00
-          </p>
-
-
-
-          <button type="button" class="btn btn-default btn-sm middle timer-button" onclick="startTimer(this)">
-            <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start
-          </button>
-
-          <p class="activityName">
-            Transport
-          </p>
-
-        </div>
-      </div>
-
-      <div class="col-xs-6 col-sm-4">
-        <div class="activityIconContainer">
-
-          <p class="timer col-xs-12">
-            00:00:00
-          </p>
-
-
-
-          <button type="button" class="btn btn-default btn-sm middle timer-button" onclick="startTimer(this)">
-            <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start
-          </button>
-
-          <p class="activityName">
-            Work
-          </p>
-
-        </div>
-      </div>
-
-
-
+      {% endfor %}
     </div>
-
-
   </div>
   </div>
 
