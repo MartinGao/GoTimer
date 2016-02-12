@@ -1,23 +1,59 @@
 var timers = Array.apply(null, Array(5));
 
 function startTimer(element) {
-  var result = confirm("Would you like to " + element.innerText.toLowerCase() + ' this timer?');
-  if (result) {
-    if (element.innerText.match(/Start/)) {
-      element.innerHTML = "<span class='glyphicon glyphicon-stop' aria-hidden='true'></span> Stop";
-    } else {
-      var buttonIndex = jQuery(element).index('.timer-button');
-      clearTimeout(timers[buttonIndex]);
-      element.innerHTML = "<span class='glyphicon glyphicon-play' aria-hidden='true'></span> Start";
-      return;
-    }
 
-    var timerElement = jQuery(element).prev('.timer')[0];
-    timerElement.innerHTML = '00:00:00';
-    var timerIndex = jQuery(timerElement).index('.timer');
+  var str =  '';
+  var color = '#5cb85c';
+  var btn = '';
 
-    countUp({start: new Date(), element: timerElement, timerIndex: timerIndex});
+  if (element.innerText.match(/Start/)) {
+    str = "Would you like to start this timer?";
+    color = '#5cb85c';
+    btn = "Yes, Start it!";
   }
+  else{
+    str = "Would you like to stop this timer?";
+    color = '#eea236';
+    btn = "Yes, Stop it!";
+  }
+  swal({
+    title: str,
+    text: "",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonColor: color,
+    confirmButtonText: btn,
+    cancelButtonText: "Nope!",
+    closeOnConfirm: false,
+    closeOnCancel: false
+  }, function(isConfirm){
+    if (isConfirm) {
+
+      if (element.innerText.match(/Start/)) {
+        swal.close()
+        notie.alert(1, 'Timer Started!', 1.5);
+        element.innerHTML = "<span class='glyphicon glyphicon-stop' aria-hidden='true'></span> Stop";
+      } else {
+        swal.close()
+        notie.alert(2, 'Timer Stopped!', 1.5);
+        var buttonIndex = jQuery(element).index('.timer-button');
+        clearTimeout(timers[buttonIndex]);
+        element.innerHTML = "<span class='glyphicon glyphicon-play' aria-hidden='true'></span> Start";
+        return;
+      }
+
+      var timerElement = jQuery(element).prev('.timer')[0];
+      timerElement.innerHTML = '00:00:00';
+      var timerIndex = jQuery(timerElement).index('.timer');
+
+      countUp({start: new Date(), element: timerElement, timerIndex: timerIndex});
+
+
+
+    } else {
+      swal.close()
+    }
+  });
 }
 
 function countUp(timer) {

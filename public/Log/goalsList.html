@@ -204,6 +204,7 @@
           })
           .done(function(data) {
             swal.close()
+            notie.alert(1, 'Goal Started!', 1.5);
             console.log(data);
           })
 
@@ -262,6 +263,7 @@
           })
           .done(function(data) {
             swal.close()
+            notie.alert(2, 'Goal Stopped!', 1.5);
             console.log(data);
           })
 
@@ -412,5 +414,7 @@
   padding-right: 5px;
 }
 </style>
+
+<script src="../src/js/notie.js"></script>
 
 </html>
