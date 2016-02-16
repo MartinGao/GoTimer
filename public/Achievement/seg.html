@@ -1,0 +1,25 @@
+<div class="col-xs-12" style="margin-bottom: 10px;">
+
+
+  <div class="col-xs-6 small-padding">
+    <a type="button" id="weekSeg" href="week" class="no-padding col-xs-12 btn btn-default">This Week</a>
+  </div>
+
+  <div class="col-xs-6 small-padding">
+    <a type="button" id="monthSeg" href="month" class="no-padding col-xs-12 btn btn-default">This Month</a>
+  </div>
+
+</div>
+
+
+<script>
+var url      = window.location.href;     // Returns full URL
+console.log(url);
+if(url.match('achievement/week')){
+  $('#weekSeg').addClass('active')
+}
+if(url.match('achievement/month')){
+  $('#monthSeg').addClass('active')
+}
+
+</script>

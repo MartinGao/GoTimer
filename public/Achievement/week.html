@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  {% include "htmlHead.html" %}
+
+  <script src="/src/js/jquery.js"></script>
+  <link rel="stylesheet" href="/src/css/bootstrap.min.css">
+  <script src="/src/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/src/css/animated.min.css">
+
+  <script src="/src/js/bind.min.js"></script>
+  <script src="/src/js/lodash.min.js"></script>
+  <script src="/src/js/moment.min.js"></script>
+  <link rel="stylesheet" href="../src/css/global.css">
+
+</head>
+
+<body>
+  {% include "navBar.html" %}
+
+  <div class="container">
+
+    {% include "Achievement/seg.html" %}
+
+    <div id="friendsList">
+
+    </div>
+
+  </div>
+
+  {% include "tabBar.html" %}
+</body>
+<script>
+
+
+  var $scope = Bind({
+    friendsList: [{
+      rank: '1',
+      hours: '40 hours this week',
+      name: 'Nancy Jiang',
+      avatar: 'https://scontent-lax3-1.xx.fbcdn.net/hprofile-prn2/v/t1.0-1/c0.0.160.160/p160x160/549710_556903604323214_660697084_n.jpg?oh=3b667ddbaa1ce801f3c40c6d79da9c16&oe=57654FC6'
+    },{
+      rank: '2',
+      hours: '32 hours this week',
+      name: 'Suri Mao',
+      avatar: 'https://scontent-lax3-1.xx.fbcdn.net/hprofile-xfl1/v/t1.0-1/p160x160/11034268_566603173493441_1803469524602696669_n.jpg?oh=974148327809a6f105ac20f1ea1cb9e3&oe=576AC985'
+    },{
+      rank: '3',
+      hours: '22 hours this week',
+      name: 'Martin Gao',
+      avatar: 'https://scontent-lax3-1.xx.fbcdn.net/hprofile-xpa1/v/t1.0-1/p160x160/10325793_710173859025471_8285359438039840909_n.jpg?oh=385c9c5366ffac6e60fd48a9be25cde6&oe=5769984E'
+    }]
+  }, {
+    friendsList: {
+      dom: '#friendsList',
+      transform: function (value) {
+        var str = ''
+
+        str += '<div class="cell">'
+
+        // Start of Left Info Panel col-8
+
+        // Name
+        str += '<div class="col-xs-1 small-padding">'
+        str += '<h5 style="text-align:center">'+value.rank+'</h5>'
+        str += '</div>'
+
+        str += '<div class="col-xs-2 small-padding">'
+        str += '<img class="avatar img-circle" style="max-height: 50px;" src='+value.avatar+'>'
+        str += '</div>'
+
+        str += '<div class="col-xs-4 small-padding">'
+        str += '<h5>'+value.name+'</h5>'
+        str += '</div>'
+
+
+        str += '<div class="col-xs-6 small-padding">'
+        str += '<h5 style="text-align:right">'+value.hours+'</h5>'
+        str += '</div>'
+
+
+        str += '</div>'
+
+        return str;
+      },
+    }
+  });
+
+</script>
+
+
+<style>
+
+.avatar{
+  margin-bottom: 10px;
+}
+
+
+
+.runningWall{
+  background-color: #dbf0db;
+}
+
+.endedWall{
+  background-color: #fbe9d0;
+}
+
+.waitingWall{
+  background-color: #ccebff;
+}
+
+.small-padding{
+  padding-left: 5px;
+  padding-right: 5px;
+}
+</style>
+
+</html>

@@ -4,8 +4,12 @@ import mongoose from 'mongoose';
 module.exports = (app) => {
 
   //Frontend Route
-  app.get('/achievement/friends', (req, res) => {
-    res.render('Achievement/friends.html');
+  app.get('/achievement/week', (req, res) => {
+    res.render('Achievement/week.html');
+  });
+
+  app.get('/achievement/month', (req, res) => {
+    res.render('Achievement/month.html');
   });
 
 
