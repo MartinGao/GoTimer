@@ -4,16 +4,7 @@
 <head>
   {% include "htmlHead.html" %}
 
-  <script src="/src/js/jquery.js"></script>
-  <link rel="stylesheet" href="/src/css/bootstrap.min.css">
-  <script src="/src/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="/src/css/animated.min.css">
-
   <script src="/src/js/bind.min.js"></script>
-  <script src="/src/js/lodash.min.js"></script>
-  <script src="/src/js/moment.min.js"></script>
-  <script src="/src/js/wow.min.js"></script>
-  <link rel="stylesheet" href="../src/css/global.css">
 
 </head>
 
@@ -23,32 +14,17 @@
   <div class="container">
 
 
-    <div id="myProfile">
-
-    </div>
-
-
     <div class="col-xs-12 no-padding cell">
 
       <div class="col-xs-6 no-padding">
-        <span>Total Hours: </span>
+        <span>Email</span>
       </div>
 
       <div class="col-xs-6 no-padding" style="text-align:right">
-        <span style="text-align:right" id="totalHoursLabel"></span>
+        <span style="text-align:right" id="emailLabel"></span>
       </div>
     </div>
 
-    <div class="col-xs-12 no-padding cell">
-
-      <div class="col-xs-6 no-padding">
-        <span>Total Goals: </span>
-      </div>
-
-      <div class="col-xs-6 no-padding" style="text-align:right">
-        <span style="text-align:right" id="totalGoalsLabel"></span>
-      </div>
-    </div>
 
     <div class="form-group">
         <a type="button" id="addSeg" href="#" onClick="logOut()" class="small-padding col-xs-12 btn btn-danger">Logout</a>
@@ -57,13 +33,20 @@
   </div>
 
   {% include "tabBar.html" %}
+
 </body>
+
 <script>
 
+var $scope = Bind({
+   emailLabel :  Cookies.get('email'),
+ }, {
+   emailLabel : '#emailLabel',
+ })
 
-  function logOut(){
+ function logOut(){
     swal({
-      title: "Do you want to logout?",
+      title: "Do you really wish to logout?",
       text: "",
       type: "warning",
       showCancelButton: true,
@@ -74,86 +57,15 @@
       closeOnCancel: false
     }, function(isConfirm){
       if (isConfirm) {
+        Cookies.remove('email');
+        Cookies.remove('userId');
+        window.location = "/";
         swal.close()
-
       } else {
         swal.close()
       }
     });
   }
 
-  var $scope = Bind({
-    totalHoursLabel : '120 hours',
-    totalGoalsLabel : '52 goals',
-    myProfile: {
-      name: 'Nancy Jiang',
-      avatar: 'https://scontent-lax3-1.xx.fbcdn.net/hprofile-prn2/v/t1.0-1/c0.0.160.160/p160x160/549710_556903604323214_660697084_n.jpg?oh=3b667ddbaa1ce801f3c40c6d79da9c16&oe=57654FC6'
-    }
-  }, {
-    totalHoursLabel : '#totalHoursLabel',
-    totalGoalsLabel : '#totalGoalsLabel',
-    myProfile: {
-      dom: '#myProfile',
-      transform: function (value) {
-        var str = ''
-
-        str += '<div class="cell">'
-
-        // Start of Left Info Panel col-8
-
-        // Name
-
-        str += '<div class="col-xs-2 small-padding">'
-        str += '<img class="avatar img-circle" style="max-height: 50px;" src='+value.avatar+'>'
-        str += '</div>'
-
-        str += '<div class="col-xs-10 small-padding">'
-        str += '<h5 style="text-align:right">'+value.name+'</h5>'
-        str += '</div>'
-
-
-        str += '</div>'
-
-        return str;
-      },
-    }
-  });
-
 </script>
-
-
-<style>
-
-.avatar{
-  margin-bottom: 10px;
-}
-
-.cell{
-  width: 100%;
-  /*border-style: solid;*/
-  border-bottom: thin solid #ddd;
-  display: flex;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-}
-
-.runningWall{
-  background-color: #dbf0db;
-}
-
-.endedWall{
-  background-color: #fbe9d0;
-}
-
-.waitingWall{
-  background-color: #ccebff;
-}
-
-.small-padding{
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-</style>
-
 </html>

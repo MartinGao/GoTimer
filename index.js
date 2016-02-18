@@ -22,16 +22,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 import LogModel from './Model/log.model';
+import UserModel from './Model/user.model';
 LogModel(app);
+UserModel(app);
 
 import LogRoute from './Route/log.route';
 import HistoryRoute from './Route/history.route';
 import AchievementRoute from './Route/achievement.route';
 import SettingRoute from './Route/setting.route';
+import UserRoute from './Route/user.route';
 LogRoute(app);
 HistoryRoute(app);
 AchievementRoute(app);
 SettingRoute(app);
+UserRoute(app);
 
 
 nunjucks.configure('public', {

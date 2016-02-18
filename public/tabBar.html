@@ -36,7 +36,7 @@
 				</a>
 			</div>
 
-			<div class="btn-group" role="group">
+			<!-- <div class="btn-group" role="group">
 				<a
 					id="achievement-button"
 					type="button"
@@ -45,7 +45,7 @@
 				>
 					<span class='tabBarTitle'>Ranking</span>
 				</a>
-			</div>
+			</div> -->
 
 			<div class="btn-group" role="group">
 				<a
@@ -54,7 +54,7 @@
 					class="btn btn-lg btn-default my-nav-button"
 					href="/setting/profile"
 				>
-				<span class='tabBarTitle'>Settings</span>
+				<span class='tabBarTitle'>Profile</span>
 				</a>
 			</div>
 		</div>
@@ -75,7 +75,7 @@
 	  $('#page-title').text('History');
 	} else if (url.match('/setting*')) {
 	  $('#settings-button').addClass('active');
-	  $('#page-title').text('Settings');
+	  $('#page-title').text('Profile');
 	} else if (url.match('log/timer') || url.match('')){
 	  $('#timer-button').addClass('active');
 	  $('#page-title').text('Timers');
