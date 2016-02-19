@@ -30,17 +30,23 @@
 
   {% for item in items %}
 
-  <div class="col-xs-12 well small-padding waitingWall">
+  <div class="col-xs-12 well small-padding  vertical-align waitingWall">
 
 
-    <div class="col-xs-8">
+    <div class="col-xs-4">
 
 
       <div class="col-xs-12 no-padding">
-        <h4>{{item.name}}</h4>
+        <h5>{{item.name}}</h5>
       </div>
 
+
       <div class="col-xs-12 no-padding">
+        <p>{{item.category}}</p>
+      </div>
+
+
+      <!-- <div class="col-xs-12 no-padding">
         <div class="col-xs-6 no-padding">
           <p>Est. Time</p>
         </div>
@@ -58,7 +64,7 @@
         <div class="col-xs-6 no-padding">
           <p>{{item.category}}</p>
         </div>
-      </div>
+      </div> -->
 
     </div>
 
@@ -66,24 +72,33 @@
 
     {% if item.started != null %}
     <div class="col-xs-4">
-      <button class="col-xs-12 btn btn-warning stopBtn">
-        <span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Stop
-      </button>
+
+      <div style="text-align : center" >
+        <span class="timerLabel">00:00:00</span>
+      </div>
+
     </div>
-    {% else %}
-    <div class="col-xs-4">
-      <button class="col-xs-12 btn btn-success startBtn">
-        <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start
-      </button>
-    </div>
+
+
     {% endif %}
 
-    <div class="col-xs-4" style="text-align : center" >
-      <span class="timerLabel">00:00:00</span>
-    </div>
 
-    <div class="col-xs-3 small-padding">
-      <h5 style="text-align : center">{{item.startedString}}</h5>
+    <div class="col-xs-4">
+
+      {% if item.started != null %}
+      <div>
+        <button class="col-xs-12 btn btn-warning stopBtn" go-timer-id="{{item._id}}">
+          <span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Stop
+        </button>
+      </div>
+      {% else %}
+      <div>
+        <button class="col-xs-12 btn btn-success startBtn" go-timer-id="{{item._id}}">
+          <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start
+        </button>
+      </div>
+      {% endif %}
+
     </div>
 
 
@@ -97,6 +112,8 @@
 
     <h5 style="text-align: center; color: #888">
       Check Previous Goals
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+
     </h5>
 
   </div>

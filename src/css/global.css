@@ -18,6 +18,11 @@
   display: block
 }
 
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
 .cell{
   width: 100%;
   /*border-style: solid;*/
