@@ -81,7 +81,11 @@
       </div>
       <div class="col-xs-3 small-padding">
         <button class="col-xs-12 btn btn-xs btn-info infoBtn">
-          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> More
+          <span class="ex glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+          <span class="ex infoBtnString">Expand</span>
+
+          <span class="up glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+          <span class="up infoBtnString">Hide</span>
         </button>
       </div>
     </div>
@@ -141,15 +145,21 @@
 
   $('.infoBtn').click(toggleDetail);
 
+  $('.up').hide()
+
   function toggleDetail(){
     var detail = $(this).parent().parent().parent().find('.goalDetailContainer')
     if(!detail.is(":visible")){
       detail.show().addClass('animated flash');
       console.log('about to show')
+      $(this).find('.up').show().addClass('animated flash');
+      $(this).find('.ex').hide()
+
     }
     else{
       detail.hide().addClass('animated flash');
-      console.log('about to hide')
+      $(this).find('.ex').show().addClass('animated flash');
+      $(this).find('.up').hide()
     }
   }
 

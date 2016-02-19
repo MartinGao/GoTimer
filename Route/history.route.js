@@ -52,12 +52,16 @@ module.exports = (app) => {
             temp.actualDurationString = "N/A";
             temp.startedString = "Haven't started";
             temp.actualDurationString = "Haven't started";
+            temp.endedString = "Haven't started";
           }
 
           if(temp.ended === null && temp.started != null){
             temp.endedString = "In Progress";
             temp.actualDurationString = "In Progress";
+          }
 
+          if(temp.estimatedTime == 0){
+            temp.estimatedDurationString = 'N/A';
           }
 
           newLogs.push(temp);
