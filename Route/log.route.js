@@ -44,6 +44,7 @@ module.exports = (app) => {
     Log.create({
       user: '507f1f77bcf86cd799439011',
       name: req.body.name,
+      category: req.body.category,
       estimatedTime: req.body.estimatedTime,
     }, (err, newLog) => {
       if (err) {

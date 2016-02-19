@@ -36,6 +36,16 @@ module.exports = (app) => {
           temp.estimatedDurationString = ss;
 
           temp.startedString = moment(log.started).format('YYYY-MM-DD hh:mm:ss')
+          temp.endedString = moment(log.ended).format('YYYY-MM-DD hh:mm:ss')
+
+          if(temp.started === null){
+            temp.actualDurationString = "N/A";
+            temp.startedString = "Haven't started";
+          }
+
+          if(temp.ended === null){
+            temp.endedString = "Haven't started";
+          }
 
           newLogs.push(temp);
           cb();

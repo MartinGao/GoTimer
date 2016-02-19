@@ -8,6 +8,9 @@
   padding-right: 0px !important;
 }
 
+.gray{
+  color: #999;
+}
 
 .middle {
   margin-left: auto;
@@ -19,7 +22,7 @@
   width: 100%;
   /*border-style: solid;*/
   border-bottom: thin solid #ddd;
-  display: flex;
+  /*display: flex;*/
   margin-bottom: 20px;
 }
 
