@@ -7,8 +7,6 @@
 
   <link rel="stylesheet" href="/src/css/animated.min.css">
 
-  <link rel="stylesheet" href="../src/css/global.css">
-
 </head>
 
 
@@ -18,7 +16,7 @@
 
   <div class="container">
 
-    {% include "History/seg.html" %}
+    <!-- {% include "History/seg.html" %} -->
 
     {% include "History/datePicker.html" %}
 
@@ -27,7 +25,32 @@
   </div> -->
 
 
-  <div class="cell">
+  {% if items.length == 0 %}
+
+  <div class="col-xs-12 well small-padding">
+
+    <a href="/log/newGoal">
+      <h5 style="text-align: center; color: #888">
+
+        <p>
+          You don't any goal for selected date.
+        </p>
+
+        <p>
+          Please Add Some!         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+
+        </p>
+
+
+      </h5>
+    </a>
+  </div>
+
+  {% else %}
+
+
+
+  <div class="col-xs-12 cell">
     <div class="col-xs-3 small-padding">
       <h5 style="text-align : center">Name</h5>
     </div>
@@ -38,7 +61,7 @@
       <h5 style="text-align : center">Actual Duration</h5>
     </div>
     <div class="col-xs-3 small-padding">
-      <h5 style="text-align : center">Actions</h5>
+      <h5 style="text-align : center"> </h5>
     </div>
   </div>
 
@@ -107,6 +130,7 @@
 
   {% endfor %}
 
+  {% endif %}
 </div>
 
 {% include "tabBar.html" %}
@@ -129,6 +153,11 @@
     }
   }
 
+
+  $('.editBtn').click(function(){
+    window.location = "/log/edit/" + $(this).attr('go-timer-id');
+  })
+
   // Delete Btn
   $('.deleteBtn').click(function(){
     // var result = confirm('Are you sure you want to delete this goal?');
@@ -150,7 +179,7 @@
       if (isConfirm) {
         console.log('About to deleteGoal -> ' +goalId);
         $.ajax({
-          url: "../api/logs/delete",
+          url: "/api/logs/delete",
           type: 'DELETE',
           data: {
             id: goalId,

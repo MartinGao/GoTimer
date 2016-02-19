@@ -55,14 +55,15 @@
       url: "/logs/newGoal",
       type: 'POST',
       data: {
+        userId: Cookies('userId'),
         name: $('#nameField').val(),
         category: $('#categoryField').val(),
-        estimatedTime: $('#estimatedTimeField').val(),
+        estimatedTime: $('#estimatedTimeField').val() * 60,
       },
     })
     .done(function(data) {
       console.log(data);
-      window.location = "/log/list";
+      window.location = "/log/list/" + Cookies('userId');
     })
     .error(function() {
       alert('Your input is invalid.');
@@ -70,7 +71,7 @@
   }
 
   function back() {
-    window.location = "/log/list";
+    window.location = "/log/list/" + Cookies('userId');
   }
 
 </script>

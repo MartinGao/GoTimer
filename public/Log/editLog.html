@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+
+  {% include "htmlHead.html" %}
+
+
+</head>
+
+
+<body>
+
+  {% include "navBar.html" %}
+
+  <div class="container">
+
+    <div class="form-group">
+      <label for="nameField">Goal Name</label>
+      <input type="text" class="form-control" id="nameField" placeholder="Required">
+    </div>
+    <div class="form-group">
+      <label for="categoryField">Category</label>
+      <select class="form-control" id="categoryField" placeholder="Required">
+        <option value="Eat">Eat</option>
+        <option value="Entertainment">Entertainment</option>
+        <option value="Housework">Housework</option>
+        <option value="Sport">Sport</option>
+        <option value="Sleep">Sleep</option>
+        <option value="Study">Study</option>
+        <option value="Sport">Transport</option>
+        <option value="Sport">Work</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="estimatedTimeField">Estimate Time</label>
+
+      <div class="input-group">
+        <input type="number" class="form-control" id="estimatedTimeField" placeholder="In Minutes">
+        <span class="input-group-addon">Minutes</span>
+
+      </div>
+
+    </div>
+
+
+    {% if item.actualDuration != null %}
+    <div class="form-group">
+      <label for="estimatedTimeField">Actual Time</label>
+      <div class="input-group">
+        <input type="number" class="form-control" id="actualTimeField" placeholder="In Minutes">
+        <span class="input-group-addon">Minutes</span>
+      </div>
+    </div>
+    {% else %}
+    <div class="form-group">
+      <label for="estimatedTimeField">Actual Time</label>
+      <div class="input-group">
+        <input type="number" class="form-control" id="actualTimeField" placeholder="In Minutes" disabled="disables">
+        <span class="input-group-addon">Minutes</span>
+      </div>
+    </div>
+    <div class="col-xs-12 no-padding" style=" margin-bottom: 0px;">
+      <div class="alert alert-info">
+        <p>
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+          You cant edit actual time without finishing this goal
+        </p>
+      </div>
+    </div>
+    {% endif %}
+
+
+
+
+
+    <button style="margin-bottom: 12px;" class="small-padding form-control col-xs-12 btn btn-success" onClick="submit()">Save</button>
+
+
+
+    <button style="margin-bottom: 12px;" class="small-padding form-control col-xs-12 btn btn-default" onClick="back()">Back</button>
+
+
+  </div>
+
+</body>
+<script src="https://code.jquery.com/jquery.js"></script>
+<script>
+
+
+$('#nameField').val('{{item.name}}')
+$('#categoryField').val('{{item.category}}')
+var a = {{item.estimatedTime}}
+$('#estimatedTimeField').val(a/60)
+
+var a = {{item.actualDuration}}
+$('#actualTimeField').val((a/60).toFixed(2))
+
+$('#page-title').text("Edit Goal")
+
+function submit(){
+  $.ajax({
+    url: "/api/log/edit",
+    type: 'PUT',
+    data: {
+      id: '{{item._id}}',
+      name: $('#nameField').val(),
+      category: $('#categoryField').val(),
+      ended: '{{item.ended}}',
+      started: '{{item.started}}',
+      estimatedTime: $('#estimatedTimeField').val() * 60,
+      actualTime: $('#actualTimeField').val() * 60,
+    },
+  })
+  .done(function(data) {
+    console.log(data);
+    window.location = "/history/list/" + Cookies('userId') + '/' + Cookies('selectedDate');
+  })
+  .error(function() {
+    alert('Your input is invalid.');
+  })
+}
+
+function back() {
+  window.location = "/history/list/" + Cookies('userId') + '/' + Cookies('selectedDate');
+}
+
+</script>
+
+</html>

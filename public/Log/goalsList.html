@@ -4,10 +4,6 @@
 <head>
   {% include "htmlHead.html" %}
 
-  <script src="/src/js/jquery.js"></script>
-  <link rel="stylesheet" href="/src/css/bootstrap.min.css">
-  <script src="/src/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="/src/css/animated.min.css">
 
   <script src="/src/js/bind.min.js"></script>
   <script src="/src/js/lodash.min.js"></script>
@@ -32,18 +28,18 @@
 
   <div class="col-xs-12 well small-padding">
 
-    <a href="/history/list">
+    <a href="/log/newGoal">
       <h5 style="text-align: center; color: #888">
 
         <p>
-          You don't any goal yet.
+          You don't any unfinished goal yet.
         </p>
 
         <p>
-          Please Add Some!
+          Try to add Some!         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+
         </p>
 
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 
       </h5>
     </a>
@@ -164,7 +160,7 @@
 
 <div class="col-xs-12 well small-padding">
 
-  <a href="/history/list">
+  <a id="tireed" href="/history/list">
     <h5 style="text-align: center; color: #888">
 
       Check Finished Goals
@@ -180,6 +176,7 @@
 {% include "tabBar.html" %}
 </body>
 <script>
+$('#tireed').attr('href','/history/list/' + Cookies.get('userId')+'/' + moment().format())
 
 
 var tips = [
@@ -360,7 +357,7 @@ function bindEverything(){
         countUp(timer);
 
         $.ajax({
-          url: "../api/logs/start",
+          url: "/api/logs/start",
           type: 'GET',
           data: {
             id: _this.attr('go-timer-id'),
@@ -420,7 +417,7 @@ function bindEverything(){
         clearTimeout();
 
         $.ajax({
-          url: "../api/logs/stop",
+          url: "/api/logs/stop",
           type: 'GET',
           data: {
             id: _this.attr('go-timer-id'),
@@ -459,7 +456,7 @@ function bindEverything(){
       if (isConfirm) {
         console.log('About to deleteGoal -> ' +goalId);
         $.ajax({
-          url: "../api/logs/delete",
+          url: "/api/logs/delete",
           type: 'DELETE',
           data: {
             id: goalId,
@@ -494,18 +491,22 @@ function secondsToString(seconds){
 }
 
 function countUp(elem){
-  // console.log('countUp something!');
-  // console.log(elem);
+  console.log('countUp something!');
+  console.log(elem);
   $(elem).attr('go-timer-duration',parseInt($(elem).attr('go-timer-duration'),10) + 1);
   $(elem).text(secondsToString($(elem).attr('go-timer-duration')));
   setTimeout(function() { countUp(elem); }, 1000);
 }
 
 function fetch(){
+  console.log('fetch!');
   var mightBeRunning = null;
   $.ajax({
-    url: "../api/logs/list",
-    type: 'GET',
+    url: "/api/logs/list",
+    type: 'POST',
+    data : {
+      userId: Cookies.get('userId')
+    }
   })
   .done(function(data) {
     console.log(data);
@@ -582,6 +583,6 @@ fetch();
 }
 </style>
 
-<script src="../src/js/notie.js"></script>
+<script src="/src/js/notie.js"></script>
 
 </html>

@@ -7,10 +7,14 @@ const LogSchema = new Schema({
     required: true,
     ref: 'User'
   },
-  name: {
-    type: String,
-    required: true
+  created: {
+    type: Date,
+    default: Date.now,
   },
+  name: {
+      type: String,
+      required: true
+    },
   estimatedTime: {
     type: Number,
     default: 0

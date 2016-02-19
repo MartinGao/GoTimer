@@ -24,7 +24,7 @@
 
 
 
-    <div class="form-group">
+    <div class="form-group" stytle="margin-bottom: 15px;">
       <a type="button" id="addSeg" href="#" onClick="register()" class="small-padding col-xs-12 btn btn-info">Login</a>
     </div>
 
@@ -32,6 +32,49 @@
 
 </body>
 
+<script>
+$('#page-title').text("Log In")
 
+function register(){
+  $.ajax({
+    url: "/api/user/login",
+    type: 'POST',
+    data: {
+      email: $('#emailField').val(),
+      password: $('#passwordField').val(),
+    },
+  })
+  .done(function(data) {
+    console.log(data);
+
+    swal({
+      title: "Welcome back!",
+      type: "success",
+      showConfirmButton: true,
+      confirmButtonText: "Go to home page now",
+    }, function(isConfirm){
+      Cookies.set('email', data.email, { expires: 180 });
+      Cookies.set('userId', data._id, { expires: 180 });
+      Cookies.set('selectedDate', moment().format(), { expires: 180 });
+      window.location = "/log/list/" + Cookies.get('userId')
+    })
+
+  })
+  .error(function() {
+
+    swal({
+      title: "Something Wrong?",
+      text: "Please try again",
+      type: "error",
+      showCancelButton: true,
+      showConfirmButton: false,
+      cancelButtonText: "#5cb85c",
+      cancelButtonText: "Nope!",
+    }, function(isConfirm){
+    })
+  })
+}
+
+</script>
 
 </html>

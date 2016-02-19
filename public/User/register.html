@@ -34,6 +34,8 @@
 
 <script>
 
+$('#page-title').text("New User Register")
+
 function register(){
   $.ajax({
     url: "/api/user/register",
@@ -54,7 +56,7 @@ function register(){
     }, function(isConfirm){
       Cookies.set('email', data.email, { expires: 180 });
       Cookies.set('userId', data._id, { expires: 180 });
-      window.location = "/log/list";
+      window.location = "/log/list/" + Cookies.get('userId')
     })
 
   })

@@ -12,10 +12,91 @@ module.exports = (app) => {
     res.render('Log/newGoal.html');
   });
 
-  app.get('/log/list', (req, res) => {
 
+  app.get('/log/edit/:lodId', (req, res) => {
+    Log.findOne({
+      _id: req.params.lodId
+    }).exec((err, oldLog) => {
+
+
+      let newLogs = [];
+
+      async.each([oldLog],(log,cb) => {
+
+        let temp = JSON.parse(JSON.stringify(log));
+
+        temp.onGoingDuration = moment().unix() - moment(temp.started).unix();
+
+        let ms = moment(log.ended).diff(moment(log.started));
+        let d = moment.duration(ms);
+        let s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
+
+        temp.actualDurationString = s;
+        temp.actualDuration = ms/1000;
+
+        if(temp.started === null && temp.ended === null){
+          temp.actualDuration = null;
+          temp.actualDurationString = null;
+        }
+
+        let msms = moment().diff(moment().add(-log.estimatedTime,'seconds'));
+        let dd = moment.duration(msms);
+        let ss = ("0" + Math.floor(dd.asHours()) ).slice(-2) + moment(msms).format(":mm:ss");
+
+
+        temp.estimatedDurationString = ss;
+
+        newLogs.push(temp);
+        cb();
+
+      },() => {
+        console.log(newLogs);
+        res.render('Log/editLog.html', {
+          item: newLogs[0]
+        });
+      });
+    })
+  });
+
+  app.put('/api/log/edit/', (req, res) => {
+    if(req.body.actualTime){
+      console.log(req.body.actualTime)
+      console.log(req.body.started)
+      console.log(moment(req.body.started).add(req.body.actualTime,'seconds'))
+      Log.findOneAndUpdate({
+        _id: req.body.id
+      },{
+        name: req.body.name,
+        category: req.body.category,
+        ended: moment(req.body.started).add(req.body.actualTime,'seconds'),
+      }).exec((err, oldLog) => {
+        console.log(oldLog);
+        res.render('Log/editLog.html', {
+          item: oldLog
+        });
+      })
+
+    }
+    else{
+      Log.findOneAndUpdate({
+        _id: req.body.id
+      },{
+        name: req.body.name,
+        category: req.body.category,
+        estimatedTime: req.body.estimatedTime,
+      }).exec((err, oldLog) => {
+        console.log(oldLog);
+        res.render('Log/editLog.html', {
+          item: oldLog
+        });
+      })
+    }
+  });
+
+
+  app.get('/log/list/:userId', (req, res) => {
     Log.find({
-      user: '507f1f77bcf86cd799439011',
+      user: mongoose.Types.ObjectId(req.params.userId),
       ended: null,
     }).sort('-started').exec((err ,logs) => {
       if (err) {
@@ -67,7 +148,7 @@ module.exports = (app) => {
   .post((req, res) => {
     console.log(req.body);
     Log.create({
-      user: '507f1f77bcf86cd799439011',
+      user: req.body.userId,
       name: req.body.name,
       category: req.body.category,
       estimatedTime: req.body.estimatedTime,
@@ -81,9 +162,9 @@ module.exports = (app) => {
   });
 
   app.route('/api/logs/list')
-  .get((req, res) => {
+  .post((req, res) => {
     Log.find({
-      user: '507f1f77bcf86cd799439011',
+      user: req.body.userId,
     },(err ,goals) => {
       if (err) {
         res.send(err);

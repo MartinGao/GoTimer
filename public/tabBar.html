@@ -36,6 +36,17 @@
 				</a>
 			</div>
 
+			<div class="btn-group" role="group">
+				<a
+					id="ana-button"
+					type="button"
+					class="btn btn-lg btn-default my-nav-button"
+					href="/history/charts/"
+				>
+				<span class='tabBarTitle'>Analytics</span>
+				</a>
+			</div>
+
 			<!-- <div class="btn-group" role="group">
 				<a
 					id="achievement-button"
@@ -62,6 +73,17 @@
 	</div>
 </div>
 <script>
+
+
+if(!Cookies.get('userId')){
+  window.location = '/'
+}
+
+console.log('redirect tabBar a')
+$('#goals-button').attr('href','/log/list/' + Cookies.get('userId'));
+$('#history-button').attr('href','/history/list/' + Cookies.get('userId')+'/' + moment().format())
+$('#ana-button').attr('href','/history/charts/' + Cookies.get('userId')+'/' + moment().format())
+
 	var url      = window.location.href;     // Returns full URL
 	console.log(url);
 	if (url.match('log/list')) {
@@ -70,9 +92,12 @@
 	} else if (url.match('/achievement*')) {
 	  $('#achievement-button').addClass('active');
 	  $('#page-title').text('Ranking');
+	} else if (url.match('/history/charts')) {
+	  $('#ana-button').addClass('active');
+	  $('#page-title').text('Analytics');
 	} else if (url.match('/history*')) {
-	  $('#history-button').addClass('active');
-	  $('#page-title').text('History');
+		$('#history-button').addClass('active');
+		$('#page-title').text('History');
 	} else if (url.match('/setting*')) {
 	  $('#settings-button').addClass('active');
 	  $('#page-title').text('Profile');

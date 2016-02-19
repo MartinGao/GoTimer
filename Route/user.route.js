@@ -8,6 +8,10 @@ module.exports = (app) => {
     res.render('User/register.html');
   });
 
+  app.get('/user/login', (req, res) => {
+    res.render('User/login.html');
+  });
+
   //Frontend Route
   app.get('/', (req, res) => {
     res.render('splash.html');
