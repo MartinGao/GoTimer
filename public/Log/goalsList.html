@@ -18,15 +18,44 @@
 <body>
   {% include "navBar.html" %}
 
-  {% include "Log/seg.html" %}
 
   <div class="container">
 
-
+    {% include "Log/seg.html" %}
+<!--
     <div id="goalsList">
 
 
+    </div> -->
+
+    {% for item in items %}
+
+    <div class="col-xs-12 well small-padding runningWall">
+
+
+      <div class="col-xs-8">
+
+        <div>
+            <h4>{{item.name}}</h4>
+        </div>
+
+      </div>
+
+      <div class="col-xs-4">
+        <button class="col-xs-12 btn btn-success">Start Button</button>
+      </div>
+
+
+
+      <div class="col-xs-3 small-padding">
+        <h5 style="text-align : center">{{item.startedString}}</h5>
+      </div>
+
+
     </div>
+
+    {% endfor %}
+
 
   </div>
 

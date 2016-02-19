@@ -11,7 +11,22 @@ module.exports = (app) => {
   });
 
   app.get('/log/list', (req, res) => {
-    res.render('Log/goalsList.html');
+
+    Log.find({
+      user: '507f1f77bcf86cd799439011',
+    },(err ,logs) => {
+      if (err) {
+        res.render('Log/goalsList.html', {
+          items : logs
+        });
+      } else {
+        console.log(logs);
+        res.render('Log/goalsList.html', {
+          items : logs
+        });
+      }
+    })
+
   });
 
   app.get('/log/timer', (req, res) => {
