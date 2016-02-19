@@ -30,7 +30,11 @@
 
   {% for item in items %}
 
-  <div class="col-xs-12 well small-padding  vertical-align waitingWall">
+    {% if item.started != null %}
+      <div class="col-xs-12 well small-padding  vertical-align runningWall">
+    {% else %}
+      <div class="col-xs-12 well small-padding  vertical-align waitingWall">
+    {% endif %}
 
 
     <div class="col-xs-4">
@@ -74,11 +78,20 @@
     <div class="col-xs-4">
 
       <div style="text-align : center" >
-        <span class="timerLabel">00:00:00</span>
+        <span class="timerLabel actual-timer" go-timer-id="{{item._id}}" go-timer-duration="{{item.onGoingDuration}}">00:00:00</span>
       </div>
 
     </div>
 
+  {% else %}
+
+  <div class="col-xs-4">
+
+    <div style="text-align : center" >
+      <span class="timerLabel"></span>
+    </div>
+
+  </div>
 
     {% endif %}
 
@@ -258,9 +271,22 @@ function bindEverything(){
 
   // Start Btn
   $('.startBtn').click(function(){
-    // var result = confirm('Would you like to start timing your goal?');
-    // if (!result) return;
-    // console.log('About to startGoal -> ' + $(this).attr('go-timer-id'));
+
+    if($(this).hasClass('disabled')){
+
+      swal({
+        title: "Only one goal running at one time",
+        text: "Please focus on one thing :) ",
+        type: "warning",
+        showCancelButton: true,
+        showConfirmButton: false,
+        cancelButtonColor: "#5cb85c",
+        calcenButtonText: "Okay",
+        closeOnCancel: true
+      }, function(isConfirm){
+      })
+      return;
+    }
 
     var _this = $(this);
 
@@ -425,6 +451,8 @@ function secondsToString(seconds){
 }
 
 function countUp(elem){
+  // console.log('countUp something!');
+  // console.log(elem);
   $(elem).attr('go-timer-duration',parseInt($(elem).attr('go-timer-duration'),10) + 1);
   $(elem).text(secondsToString($(elem).attr('go-timer-duration')));
   setTimeout(function() { countUp(elem); }, 1000);
@@ -448,7 +476,8 @@ function fetch(){
       if(a.started && !a.ended){
         mightBeRunning = a._id;
         console.log('One goal is running!')
-        $('.startBtn').attr('disabled', 'disabled');
+        // $('.startBtn').attr('disabled', 'disabled');
+        $('.startBtn').addClass('disabled');
       }
 
       // Ended Goal
@@ -476,7 +505,7 @@ function fetch(){
     $scope.goalsList = newData;
     bindEverything();
     if(mightBeRunning){
-      $('.startBtn').attr('disabled', 'disabled');
+      // $('.startBtn').attr('disabled', 'disabled');
       var timer = $('.actual-timer[go-timer-id='+mightBeRunning+']');
       console.log(timer);
       countUp(timer);

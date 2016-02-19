@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import async from 'async';
+import moment from 'moment';
 const Log = mongoose.model('Log');
 const timers = require('../timer.json');
 const sliders = require('../sliders.json');
@@ -20,10 +22,25 @@ module.exports = (app) => {
           items : logs
         });
       } else {
-        console.log(logs);
-        res.render('Log/goalsList.html', {
-          items : logs
+
+        let newLogs = [];
+
+        async.each(logs,(log,cb) => {
+
+          let temp = JSON.parse(JSON.stringify(log));
+
+          temp.onGoingDuration = moment().unix() - moment(temp.started).unix();
+
+          newLogs.push(temp);
+          cb();
+
+        },() => {
+          console.log(newLogs);
+          res.render('Log/goalsList.html', {
+            items: newLogs
+          });
         });
+
       }
     })
 
