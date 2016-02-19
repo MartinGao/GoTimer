@@ -16,6 +16,7 @@ module.exports = (app) => {
 
     Log.find({
       user: '507f1f77bcf86cd799439011',
+      ended: null,
     }).sort('-started').exec((err ,logs) => {
       if (err) {
         res.render('Log/goalsList.html', {
