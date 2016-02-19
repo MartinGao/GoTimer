@@ -51,8 +51,13 @@ app.get('/settings', (req, res) => {
   res.render('settings.html');
 });
 
+// app.get('/', (req, res) => {
+//   res.render('index.html', { items: timers });
+// });
+
+
 app.get('/', (req, res) => {
-  res.render('index.html', { items: timers });
+  res.redirect('/log/list')
 });
 
 app.get('/src/:parentPath/:path', function(req, res){

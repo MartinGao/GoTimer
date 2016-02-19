@@ -16,7 +16,7 @@ module.exports = (app) => {
 
     Log.find({
       user: '507f1f77bcf86cd799439011',
-    },(err ,logs) => {
+    }).sort('-started').exec((err ,logs) => {
       if (err) {
         res.render('Log/goalsList.html', {
           items : logs
@@ -30,6 +30,13 @@ module.exports = (app) => {
           let temp = JSON.parse(JSON.stringify(log));
 
           temp.onGoingDuration = moment().unix() - moment(temp.started).unix();
+
+          let msms = moment().diff(moment().add(-log.estimatedTime,'seconds'));
+          let dd = moment.duration(msms);
+          let ss = ("0" + Math.floor(dd.asHours()) ).slice(-2) + moment(msms).format(":mm:ss");
+
+
+          temp.estimatedDurationString = ss;
 
           newLogs.push(temp);
           cb();

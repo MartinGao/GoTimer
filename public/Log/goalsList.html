@@ -30,106 +30,125 @@
 
   {% for item in items %}
 
-    {% if item.started != null %}
-      <div class="col-xs-12 well small-padding  vertical-align runningWall">
+  {% if item.started != null %}
+  <div class="col-xs-12 well small-padding">
     {% else %}
-      <div class="col-xs-12 well small-padding  vertical-align waitingWall">
-    {% endif %}
+    <div class="col-xs-12 well small-padding">
+      {% endif %}
+
+      <div class="col-xs-12 no-padding vertical-align">
+
+        <div class="col-xs-4 small-padding">
 
 
-    <div class="col-xs-4">
+          <div class="col-xs-12 no-padding">
+            <h5>{{item.name}}</h5>
+          </div>
 
 
-      <div class="col-xs-12 no-padding">
-        <h5>{{item.name}}</h5>
-      </div>
+          <div class="col-xs-12 no-padding">
+            <p>{{item.category}}</p>
+          </div>
 
 
-      <div class="col-xs-12 no-padding">
-        <p>{{item.category}}</p>
-      </div>
-
-
-      <!-- <div class="col-xs-12 no-padding">
-        <div class="col-xs-6 no-padding">
+          <!-- <div class="col-xs-12 no-padding">
+          <div class="col-xs-6 no-padding">
           <p>Est. Time</p>
         </div>
 
         <div class="col-xs-6 no-padding">
-          <p>{{item.estimatedTime}}</p>
-        </div>
+        <p>{{item.estimatedTime}}</p>
       </div>
-
-      <div class="col-xs-12 no-padding">
-        <div class="col-xs-6 no-padding">
-          <p>Category</p>
-        </div>
-
-        <div class="col-xs-6 no-padding">
-          <p>{{item.category}}</p>
-        </div>
-      </div> -->
-
     </div>
 
+    <div class="col-xs-12 no-padding">
+    <div class="col-xs-6 no-padding">
+    <p>Category</p>
+  </div>
+
+  <div class="col-xs-6 no-padding">
+  <p>{{item.category}}</p>
+</div>
+</div> -->
+
+</div>
 
 
-    {% if item.started != null %}
-    <div class="col-xs-4">
 
-      <div style="text-align : center" >
-        <span class="timerLabel actual-timer" go-timer-id="{{item._id}}" go-timer-duration="{{item.onGoingDuration}}">00:00:00</span>
-      </div>
+{% if item.started != null %}
+<div class="col-xs-4">
 
-    </div>
+  <div style="text-align : center" >
+    <h5 class="timerLabel actual-timer" go-timer-id="{{item._id}}" go-timer-duration="{{item.onGoingDuration}}">00:00:00</h5>
+  </div>
 
+</div>
+
+{% else %}
+
+<div class="col-xs-4">
+
+  <div style="text-align : center" >
+    <span class="timerLabel"></span>
+  </div>
+
+</div>
+
+{% endif %}
+
+
+<div class="col-xs-4">
+
+  {% if item.started != null %}
+  <div>
+    <button class="col-xs-12 btn btn-warning stopBtn" go-timer-id="{{item._id}}">
+      <span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Finish
+    </button>
+  </div>
   {% else %}
-
-  <div class="col-xs-4">
-
-    <div style="text-align : center" >
-      <span class="timerLabel"></span>
-    </div>
-
+  <div>
+    <button class="col-xs-12 btn btn-success startBtn" go-timer-id="{{item._id}}">
+      <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start
+    </button>
   </div>
+  {% endif %}
 
-    {% endif %}
+</div>
 
-
-    <div class="col-xs-4">
-
-      {% if item.started != null %}
-      <div>
-        <button class="col-xs-12 btn btn-warning stopBtn" go-timer-id="{{item._id}}">
-          <span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Stop
-        </button>
-      </div>
-      {% else %}
-      <div>
-        <button class="col-xs-12 btn btn-success startBtn" go-timer-id="{{item._id}}">
-          <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start
-        </button>
-      </div>
-      {% endif %}
-
-    </div>
+</div>
 
 
+<div class="col-xs-12 no-padding" style=" margin-bottom: -33px;">
+  <div class="alert">
+    <p>
+      <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+      Estimated time for this goal is {{item.estimatedDurationString}}
+    </p>
+    <!-- <p>
+      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+      You are doing good!
+    </p> -->
   </div>
+</div>
 
-  {% endfor %}
-
-
-  <div class="col-xs-12 well small-padding">
+</div>
 
 
+
+{% endfor %}
+
+
+<div class="col-xs-12 well small-padding">
+
+  <a href="/history/list">
     <h5 style="text-align: center; color: #888">
-      Check Previous Goals
+
+      Check Finished Goals
       <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 
     </h5>
-
-  </div>
+  </a>
+</div>
 
 
 </div>
