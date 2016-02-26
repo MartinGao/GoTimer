@@ -13,8 +13,8 @@
 
 
     <div class="form-group">
-      <label for="nameField">Email</label>
-      <input type="text" class="form-control" id="emailField" placeholder="Email">
+      <label for="nameField">Name</label>
+      <input type="text" class="form-control" id="nameField" placeholder="Name">
     </div>
 
     <div class="form-group">
@@ -41,7 +41,7 @@ function register(){
     url: "/api/user/register",
     type: 'POST',
     data: {
-      email: $('#emailField').val(),
+      name: $('#nameField').val(),
       password: $('#passwordField').val(),
     },
   })
@@ -54,7 +54,7 @@ function register(){
       showConfirmButton: true,
       confirmButtonText: "Go to home page now",
     }, function(isConfirm){
-      Cookies.set('email', data.email, { expires: 180 });
+      Cookies.set('name', data.name, { expires: 180 });
       Cookies.set('userId', data._id, { expires: 180 });
       window.location = "/log/list/" + Cookies.get('userId')
     })
