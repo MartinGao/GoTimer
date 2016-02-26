@@ -7,8 +7,6 @@
 
   <link rel="stylesheet" href="/src/css/animated.min.css">
 
-  <link rel="stylesheet" href="../src/css/global.css">
-
 </head>
 
 
@@ -18,7 +16,7 @@
 
   <div class="container">
 
-    {% include "History/seg.html" %}
+    <!-- {% include "History/seg.html" %} -->
 
     {% include "History/datePicker.html" %}
 
@@ -27,7 +25,32 @@
   </div> -->
 
 
-  <div class="cell">
+  {% if items.length == 0 %}
+
+  <div class="col-xs-12 well small-padding">
+
+    <a href="/log/newGoal">
+      <h5 style="text-align: center; color: #888">
+
+        <p>
+          You don't any goal for selected date.
+        </p>
+
+        <p>
+          Please Add Some!         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+
+        </p>
+
+
+      </h5>
+    </a>
+  </div>
+
+  {% else %}
+
+
+
+  <div class="col-xs-12 cell">
     <div class="col-xs-3 small-padding">
       <h5 style="text-align : center">Name</h5>
     </div>
@@ -38,7 +61,7 @@
       <h5 style="text-align : center">Actual Duration</h5>
     </div>
     <div class="col-xs-3 small-padding">
-      <h5 style="text-align : center">Actions</h5>
+      <h5 style="text-align : center"> </h5>
     </div>
   </div>
 
@@ -58,7 +81,11 @@
       </div>
       <div class="col-xs-3 small-padding">
         <button class="col-xs-12 btn btn-xs btn-info infoBtn">
-          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> More
+          <span class="ex glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+          <span class="ex infoBtnString">Expand</span>
+
+          <span class="up glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+          <span class="up infoBtnString">Hide</span>
         </button>
       </div>
     </div>
@@ -85,11 +112,29 @@
         <p class="gray" style="text-align : left">{{item.estimatedDurationString}}</p>
       </div>
 
+      {% if item.started != null%}
+      {% if item.ended == null%}
+
+      <div class="col-xs-6 small-padding">
+        <button class="col-xs-12 btn btn-xs btn-warning editBtn disabled" go-timer-id="{{item._id}}">
+          <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+        </button>
+      </div>
+      {% else %}
       <div class="col-xs-6 small-padding">
         <button class="col-xs-12 btn btn-xs btn-warning editBtn" go-timer-id="{{item._id}}">
           <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
         </button>
       </div>
+      {% endif %}
+      {% else %}
+      <div class="col-xs-6 small-padding">
+        <button class="col-xs-12 btn btn-xs btn-warning editBtn" go-timer-id="{{item._id}}">
+          <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+        </button>
+      </div>
+      {% endif %}
+
 
       <div class="col-xs-6 small-padding">
         <button class="col-xs-12 btn btn-xs btn-danger deleteBtn" go-timer-id="{{item._id}}">
@@ -107,6 +152,7 @@
 
   {% endfor %}
 
+  {% endif %}
 </div>
 
 {% include "tabBar.html" %}
@@ -117,17 +163,33 @@
 
   $('.infoBtn').click(toggleDetail);
 
+  $('.up').hide()
+
   function toggleDetail(){
     var detail = $(this).parent().parent().parent().find('.goalDetailContainer')
     if(!detail.is(":visible")){
-      detail.show().addClass('animated flash');
+      detail.show().addClass('animated fadeIn');
       console.log('about to show')
+      $(this).find('.up').show().addClass('animated fadeIn');
+      $(this).find('.ex').hide()
+
     }
     else{
-      detail.hide().addClass('animated flash');
-      console.log('about to hide')
+      detail.hide().addClass('animated fadeIn');
+      $(this).find('.ex').show().addClass('animated fadeIn');
+      $(this).find('.up').hide()
     }
   }
+
+
+  $('.editBtn').click(function(){
+    if($(this).hasClass('disabled')){
+      notie.alert(2, "You can't edit a goal while it is in progress!", 1.5);
+    }
+    else{
+      window.location = "/log/edit/" + $(this).attr('go-timer-id');
+    }
+  })
 
   // Delete Btn
   $('.deleteBtn').click(function(){
@@ -150,7 +212,7 @@
       if (isConfirm) {
         console.log('About to deleteGoal -> ' +goalId);
         $.ajax({
-          url: "../api/logs/delete",
+          url: "/api/logs/delete",
           type: 'DELETE',
           data: {
             id: goalId,

@@ -158,24 +158,14 @@
 {% endfor %}
 
 
-<div class="col-xs-12 well small-padding">
-
-  <a id="tireed" href="/history/list">
-    <h5 style="text-align: center; color: #888">
-
-      Check Finished Goals
-      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-
-    </h5>
-  </a>
-</div>
-
 
 </div>
 
 {% include "tabBar.html" %}
 </body>
 <script>
+
+
 $('#tireed').attr('href','/history/list/' + Cookies.get('userId')+'/' + moment().format())
 
 
@@ -307,6 +297,47 @@ function startGoal(id){
 
 function bindEverything(){
 
+  var getUrlParameter = function getUrlParameter(sParam) {
+      var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+          sURLVariables = sPageURL.split('&'),
+          sParameterName,
+          i;
+
+      for (i = 0; i < sURLVariables.length; i++) {
+          sParameterName = sURLVariables[i].split('=');
+
+          if (sParameterName[0] === sParam) {
+              return sParameterName[1] === undefined ? true : sParameterName[1];
+          }
+      }
+  };
+
+  console.log('is this reload? -> ' + getUrlParameter('reload'));
+
+  if(getUrlParameter('reload')){
+    $('#history-button').qtip({
+      // $('#addSeg').qtip({
+      show : true,
+      hide: {
+        inactive: 2500
+      },
+      position: {
+        // adjust: {
+        //  y: -30,
+        //  x : -75,
+        //  resize: true // Can be ommited (e.g. default behaviour)
+        //  },
+       target: '$(this)',
+       at: 'top center', // at the bottom right of...
+       my: 'bottom center',  // Position my top left...
+
+      },
+      content: {
+          text: 'Check Your Finished Goals <br> by clicking "History" Tab!'
+      }
+    })
+  }
+
   $('.display-timer').hide();
 
   // Start Btn
@@ -378,6 +409,7 @@ function bindEverything(){
 
   });
 
+
   // Stop Btn
   $('.stopBtn').click(function(){
     console.log('About to stop goal -> ' + $(this).attr('go-timer-id'));
@@ -425,7 +457,7 @@ function bindEverything(){
         })
         .done(function(data) {
           swal.close()
-          location.reload();
+          window.location = window.location.href + '?reload=true'
         })
 
       } else {

@@ -17,11 +17,11 @@
     <div class="col-xs-12 no-padding cell">
 
       <div class="col-xs-6 no-padding">
-        <span>Email</span>
+        <span>Name</span>
       </div>
 
       <div class="col-xs-6 no-padding" style="text-align:right">
-        <span style="text-align:right" id="emailLabel"></span>
+        <span style="text-align:right" id="nameLabel"></span>
       </div>
     </div>
 
@@ -39,9 +39,9 @@
 <script>
 
 var $scope = Bind({
-   emailLabel :  Cookies.get('email'),
+   nameLabel :  Cookies.get('email'),
  }, {
-   emailLabel : '#emailLabel',
+   nameLabel : '#nameLabel',
  })
 
  function logOut(){
@@ -57,7 +57,7 @@ var $scope = Bind({
       closeOnCancel: false
     }, function(isConfirm){
       if (isConfirm) {
-        Cookies.remove('email');
+        Cookies.remove('name');
         Cookies.remove('userId');
         window.location = "/";
         swal.close()

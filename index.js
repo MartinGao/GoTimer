@@ -51,8 +51,13 @@ app.get('/settings', (req, res) => {
   res.render('settings.html');
 });
 
+// app.get('/', (req, res) => {
+//   res.render('index.html', { items: timers });
+// });
+
+
 app.get('/', (req, res) => {
-  res.render('index.html', { items: timers });
+  res.redirect('/log/list')
 });
 
 app.get('/src/:parentPath/:path', function(req, res){
@@ -65,7 +70,7 @@ app.get('/src/:parentPath/:path', function(req, res){
 app.get('*', (req, res) => {
   res.status(404).render('404.html');
 });
-
+//connect with database
 mongoose.connect('mongodb://db.siriolabs.com/go-timer-dev', (err) => {
   if (err) {
     console.error(chalk.red('Could not connect to MongoDB!'));

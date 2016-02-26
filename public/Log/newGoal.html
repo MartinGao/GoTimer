@@ -33,8 +33,9 @@
           <option value="Sport">Sport</option>
           <option value="Sleep">Sleep</option>
           <option value="Study">Study</option>
-          <option value="Sport">Transport</option>
-          <option value="Sport">Work</option>
+          <option value="Transport">Transport</option>
+          <option value="Work">Work</option>
+          <option value="Others">Others</option>
         </select>
       </div>
       <div class="form-group">
@@ -55,14 +56,15 @@
       url: "/logs/newGoal",
       type: 'POST',
       data: {
+        userId: Cookies('userId'),
         name: $('#nameField').val(),
         category: $('#categoryField').val(),
-        estimatedTime: $('#estimatedTimeField').val(),
+        estimatedTime: $('#estimatedTimeField').val() * 60,
       },
     })
     .done(function(data) {
       console.log(data);
-      window.location = "/log/list";
+      window.location = "/log/list/" + Cookies('userId');
     })
     .error(function() {
       alert('Your input is invalid.');
@@ -70,7 +72,7 @@
   }
 
   function back() {
-    window.location = "/log/list";
+    window.location = "/log/list/" + Cookies('userId');
   }
 
 </script>
