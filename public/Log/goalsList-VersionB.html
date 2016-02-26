@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="cn">
+
+<head>
+  {% include "htmlHead.html" %}
+
+
+  <script src="/src/js/bind.min.js"></script>
+  <script src="/src/js/lodash.min.js"></script>
+  <script src="/src/js/moment.min.js"></script>
+  <script src="/src/js/wow.min.js"></script>
+</head>
+
+<body>
+  {% include "navBar.html" %}
+
+
+  <div class="container">
+
+    {% include "Log/seg.html" %}
+    <!--
+    <div id="goalsList">
+
+
+  </div> -->
+
+  {% if items.length == 0 %}
+
+  <div class="col-xs-12 well small-padding">
+
+    <a href="/log/newGoal">
+      <h5 style="text-align: center; color: #888">
+
+        <p>
+          You don't any unfinished goal yet.
+        </p>
+
+        <p>
+          Try to add Some!         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+
+        </p>
+
+
+      </h5>
+    </a>
+  </div>
+
+  {% endif %}
+
+
+  {% for item in items %}
+
+  {% if item.started != null %}
+  <div class="col-xs-12 well small-padding runningWall">
+    {% else %}
+    <div class="col-xs-12 well small-padding">
+      {% endif %}
+
+      <div class="col-xs-12 no-padding vertical-align">
+
+        <div class="col-xs-4 small-padding">
+
+
+          <div class="col-xs-12 no-padding">
+            <h5>{{item.name}}</h5>
+          </div>
+
+
+          <div class="col-xs-12 no-padding">
+            <p>{{item.category}}</p>
+          </div>
+
+
+          <!-- <div class="col-xs-12 no-padding">
+          <div class="col-xs-6 no-padding">
+          <p>Est. Time</p>
+        </div>
+
+        <div class="col-xs-6 no-padding">
+        <p>{{item.estimatedTime}}</p>
+      </div>
+    </div>
+
+    <div class="col-xs-12 no-padding">
+    <div class="col-xs-6 no-padding">
+    <p>Category</p>
+  </div>
+
+  <div class="col-xs-6 no-padding">
+  <p>{{item.category}}</p>
+</div>
+</div> -->
+
+</div>
+
+
+
+{% if item.started != null %}
+<div class="col-xs-4">
+
+  <div style="text-align : center" >
+    <h5 class="timerLabel actual-timer" go-timer-id="{{item._id}}" go-timer-duration="{{item.onGoingDuration}}">00:00:00</h5>
+  </div>
+
+</div>
+
+{% else %}
+
+<div class="col-xs-4">
+
+  <div style="text-align : center" >
+    <span class="timerLabel"></span>
+  </div>
+
+</div>
+
+{% endif %}
+
+
+<div class="col-xs-4">
+
+  {% if item.started != null %}
+  <div>
+    <button class="col-xs-12 btn btn-warning stopBtn" go-timer-id="{{item._id}}">
+      <span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Finish
+    </button>
+  </div>
+  {% else %}
+  <div>
+    <button class="col-xs-12 btn btn-success startBtn" go-timer-id="{{item._id}}">
+      <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start
+    </button>
+  </div>
+  {% endif %}
+
+</div>
+
+</div>
+
+
+<div class="col-xs-12 no-padding" style=" margin-bottom: -33px;">
+  <div class="alert">
+    <p>
+      <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+      Estimated time for this goal is {{item.estimatedDurationString}}
+    </p>
+    <!-- <p>
+      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+      You are doing good!
+    </p> -->
+  </div>
+</div>
+
+</div>
+
+
+
+{% endfor %}
+
+
+
+</div>
+
+{% include "tabBar.html" %}
+</body>
+<script>
+
+
+$('#tireed').attr('href','/history/list/' + Cookies.get('userId')+'/' + moment().format())
+
+
+var tips = [
+  'Tips: You can only do one goal at a time'
+];
+
+var $scope = Bind({
+  goalsList: [
+  ]
+}, {
+  goalsList: {
+    dom: '#goalsList',
+    transform: function (value) {
+      var str = ''
+
+      if(value.started && !value.ended){
+        str += '<div class="col-xs-12 well small-padding runningWall">'
+      }
+      else if(value.started && value.ended){
+        str += '<div class="col-xs-12 well small-padding endedWall">'
+      }
+      else{
+        str += '<div class="col-xs-12 well small-padding waitingWall">'
+      }
+
+
+      // Start of Left Info Panel col-8
+      str += '<div class="col-xs-8 small-padding">'
+
+      // Name
+      str += '<div class="col-xs-12 small-padding">'
+      str += '<h5>'+value.name+'</h5>'
+      str += '</div>'
+
+      // Titles
+      str += '<div class="col-xs-4 small-padding">'
+
+      str += '<div class="col-xs-12 small-padding">'
+      str += '<span>Est. Time: </span>'
+      str += '</div>'
+
+      str += '<div class="col-xs-12 small-padding">'
+      str += '<span>Duration: </span>'
+      str += '</div>'
+
+      str += '<div class="col-xs-12 small-padding">'
+      str += '<span>Started At: </span>'
+      str += '</div>'
+
+      str += '<div class="col-xs-12 small-padding">'
+      str += '<span>Ended At: </span>'
+      str += '</div>'
+
+      str += '</div>'
+
+      // Start Tag of Values col-8
+      str += '<div class="col-xs-8 small-padding">'
+      str += '<div class="col-xs-12 small-padding">'
+      str +=  value.estimatedTime+' mins';
+      str += '</div>'
+
+      str += '<div class="col-xs-12 small-padding">'
+      str +=  secondsToString(value.duration) +'';
+      str += '</div>'
+
+      str += '<div class="col-xs-12 small-padding">'
+      if(value.started) str +=  '<span class="startedSpan"> '+moment(value.started).format('YYYY-MM-DD hh:mm:ss')+'</span>';
+      else str += '<span class="startedSpan"> N/A </span>';
+      str += '</div>'
+
+      str += '<div class="col-xs-12 small-padding">'
+      if(value.started) str +=  '<span class="endedSpan"> '+moment(value.ended).format('YYYY-MM-DD hh:mm:ss')+'</span>';
+      else str += '<span class="endedSpan"> N/A </span>';
+      str += '</div>'
+
+      // Close Tag of Values col-8
+      str += '</div>'
+
+      // Close of Left Info Panel col-8
+      str += '</div>'
+
+      str += '<div class="col-xs-4 small-padding">'
+      if(value.started && !value.ended){
+        str += '<button style="display:none;" type="button" go-timer-id="'+value._id+'" class="col-xs-12 btn btn-xs btn-success startBtn"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>'
+        str += '<button type="button" go-timer-id="'+value._id+'" class="col-xs-12 btn btn-xs btn-warning stopBtn"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>'
+      }
+      else if(value.started && value.ended){
+        str += '<button disabled="disabled" style="display:none;" type="button" go-timer-id="'+value._id+'" class="col-xs-12 btn btn-xs btn-success startBtn"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>'
+        str += '<button disabled="disabled" type="button" go-timer-id="'+value._id+'" class="col-xs-12 btn btn-xs btn-warning stopBtn"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>'
+      }
+      else{
+        str += '<button type="button" go-timer-id="'+value._id+'" class="col-xs-12 btn btn-xs btn-success startBtn"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>'
+        str += '<button style="display:none;" type="button" go-timer-id="'+value._id+'" class="col-xs-12 btn btn-xs btn-warning stopBtn"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>'
+      }
+
+      str += '<div class="goal-edit-btns">'
+      str += '<button type="button" go-timer-id="'+value._id+'" class="col-xs-5 btn btn-xs btn-info editBtn" style="margin-top:5px;margin-right:16.6666667%;"><span class="glyphicon glyphicon-edit" aria-hidden="true"></button>'
+      str += '<button type="button" go-timer-id="'+value._id+'" class="col-xs-5 btn btn-xs btn-danger deleteBtn" style="margin-top:5px;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></button>'
+      str += '</div>'
+
+      str += '<div class="goal-timer col-xs-12 small-padding">'
+      str += '<h3 style="text-align: center;" class="col-xs-12 actual-timer small-padding" go-timer-id="'+value._id+'" go-timer-duration='+value.duration+'>'+value.timerString+'</h3>'
+      str += '</div>'
+
+      str += '<div class="goal-timer col-xs-12 small-padding">'
+      str += '<h3 style="text-align: center;" class="col-xs-12 display-timer small-padding" go-timer-duration='+value.duration+'>'+value.timerString+'</h3>'
+      str += '</div>'
+
+      str += '</div>'
+
+      str += '</div>'
+
+      return str;
+    },
+  }
+});
+
+
+function startGoal(id){
+  // $.ajax({
+  //   url: "../api/logs/start",
+  //   type: 'GET',
+  // })
+  // .done(function(data) {
+  //   console.log(data);
+  // })
+}
+
+function bindEverything(){
+
+  var getUrlParameter = function getUrlParameter(sParam) {
+      var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+          sURLVariables = sPageURL.split('&'),
+          sParameterName,
+          i;
+
+      for (i = 0; i < sURLVariables.length; i++) {
+          sParameterName = sURLVariables[i].split('=');
+
+          if (sParameterName[0] === sParam) {
+              return sParameterName[1] === undefined ? true : sParameterName[1];
+          }
+      }
+  };
+
+  console.log('is this reload? -> ' + getUrlParameter('reload'));
+
+  if(getUrlParameter('reload')){
+    $('#history-button').qtip({
+      // $('#addSeg').qtip({
+      show : true,
+      hide: {
+        inactive: 2500
+      },
+      position: {
+        // adjust: {
+        //  y: -30,
+        //  x : -75,
+        //  resize: true // Can be ommited (e.g. default behaviour)
+        //  },
+       target: '$(this)',
+       at: 'top center', // at the bottom right of...
+       my: 'bottom center',  // Position my top left...
+
+      },
+      content: {
+          text: 'Check Your Finished Goals <br> by clicking "History" Tab!'
+      }
+    })
+  }
+
+  $('.display-timer').hide();
+
+  // Start Btn
+  $('.startBtn').click(function(){
+
+    if($(this).hasClass('disabled')){
+
+      swal({
+        title: "Only one goal running at one time",
+        text: "Please focus on one thing :) ",
+        type: "warning",
+        showCancelButton: true,
+        showConfirmButton: false,
+        cancelButtonColor: "#5cb85c",
+        calcenButtonText: "Okay",
+        closeOnCancel: true
+      }, function(isConfirm){
+      })
+      return;
+    }
+
+    var _this = $(this);
+
+    swal({
+      title: "Start this goal?",
+      text: "Tips: The timer will keep running even if you leave or close this page.",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#5cb85c",
+      confirmButtonText: "Yes, Start it!",
+      cancelButtonText: "Nope!",
+      closeOnConfirm: false,
+      closeOnCancel: false
+    }, function(isConfirm){
+      if (isConfirm) {
+
+        _this.parent().find('.stopBtn').show().addClass('animated fadeIn');
+        _this.hide();
+
+        _this.parent().parent().removeClass('waitingWall').addClass('animated flash runningWall');
+
+
+        $('.startBtn').attr('disabled', 'disabled');
+
+        _this.parent().parent().find('.startedSpan').text(moment().format('YYYY-DD-MM hh:mm:ss'))
+
+        var timer = _this.parent().parent().find('.actual-timer');
+        countUp(timer);
+
+        $.ajax({
+          url: "/api/logs/start",
+          type: 'GET',
+          data: {
+            id: _this.attr('go-timer-id'),
+          },
+        })
+        .done(function(data) {
+          swal.close()
+          location.reload();
+          notie.alert(1, 'Goal Started!', 1.5);
+          console.log(data);
+        })
+
+      } else {
+        swal.close()
+      }
+    });
+
+
+  });
+
+
+  // Stop Btn
+  $('.stopBtn').click(function(){
+    console.log('About to stop goal -> ' + $(this).attr('go-timer-id'));
+    // var result = confirm('Would you like to stop timing your goal?');
+    // if (!result) return;
+    var _this = $(this);
+
+    swal({
+      title: "Finish this goal?",
+      text: "Tips: You can view all your finished goals under 'Histry' Tab",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#eea236",
+      confirmButtonText: "I have finished it!",
+      cancelButtonText: "No",
+      closeOnConfirm: false,
+      closeOnCancel: false
+    }, function(isConfirm){
+      if (isConfirm) {
+
+        _this.attr('disabled', 'disabled');
+        $('.startBtn').removeAttr('disabled');
+
+        _this.parent().parent().removeClass('runningWall animated flash')
+        _this.parent().parent().addClass('animated fadeIn endedWall');
+
+
+
+        var temp = _this.parent().find('.actual-timer').eq(0).text();
+        console.log('display timer -> ' + temp)
+
+        _this.parent().parent().find('.actual-timer').remove();
+        _this.parent().parent().find('.display-timer').show();
+        _this.parent().parent().find('.display-timer').text(temp);
+
+
+        clearTimeout();
+
+        $.ajax({
+          url: "/api/logs/stop",
+          type: 'GET',
+          data: {
+            id: _this.attr('go-timer-id'),
+          },
+        })
+        .done(function(data) {
+          swal.close()
+          window.location = window.location.href + '?reload=true'
+        })
+
+      } else {
+        swal.close()
+      }
+    });
+
+  });
+
+  // Delete Btn
+  $('.deleteBtn').click(function(){
+    // var result = confirm('Are you sure you want to delete this goal?');
+    // if (!result) return;
+    var goalId = $(this).attr('go-timer-id');
+    var div = $(this).parent().parent().parent()
+
+    swal({
+      title: "Delete this goal?",
+      text: "You will not be able to recover this goal and its data!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, Delete it!",
+      cancelButtonText: "Nope!",
+      closeOnConfirm: false,
+      closeOnCancel: false
+    }, function(isConfirm){
+      if (isConfirm) {
+        console.log('About to deleteGoal -> ' +goalId);
+        $.ajax({
+          url: "/api/logs/delete",
+          type: 'DELETE',
+          data: {
+            id: goalId,
+          },
+        })
+        .done(function(data) {
+          if(data._id == goalId){
+            swal("Deleted!", "Your goal has been deleted.", "success");
+            div.addClass('animated fadeOut');
+            div.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+              div.remove();
+            });
+
+          }
+        });
+
+      } else {
+        swal.close()
+      }
+    });
+
+
+  });
+}
+
+function secondsToString(seconds){
+  var hours = parseInt( seconds / 3600 ) % 24;
+  var minutes = parseInt( seconds / 60 ) % 60;
+  var seconds = seconds % 60;
+
+  return (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
+}
+
+function countUp(elem){
+  console.log('countUp something!');
+  console.log(elem);
+  $(elem).attr('go-timer-duration',parseInt($(elem).attr('go-timer-duration'),10) + 1);
+  $(elem).text(secondsToString($(elem).attr('go-timer-duration')));
+  setTimeout(function() { countUp(elem); }, 1000);
+}
+
+function fetch(){
+  console.log('fetch!');
+  var mightBeRunning = null;
+  $.ajax({
+    url: "/api/logs/list",
+    type: 'POST',
+    data : {
+      userId: Cookies.get('userId')
+    }
+  })
+  .done(function(data) {
+    console.log(data);
+    var newData = [];
+
+    var onGoingTimers = [];
+    var notStartedTimers = [];
+    var endedTimers = [];
+
+    _.map(data,function(a){
+      if(a.started && !a.ended){
+        mightBeRunning = a._id;
+        console.log('One goal is running!')
+        // $('.startBtn').attr('disabled', 'disabled');
+        $('.startBtn').addClass('disabled');
+      }
+
+      // Ended Goal
+      if(a.started && a.ended){
+        a.duration = moment(a.ended).unix() - moment(a.started).unix();
+        a.timerString = secondsToString(a.duration);
+        endedTimers.push(a);
+      }
+      // Running Goal
+      else if(a.started && !a.ended){
+        a.duration = moment().unix() - moment(a.started).unix();
+        a.timerString = secondsToString(a.duration);
+        onGoingTimers.push(a);
+      }
+      else{
+        a.duration = 0;
+        a.timerString = secondsToString(a.duration);
+        notStartedTimers.push(a);
+      }
+
+    })
+
+    newData = onGoingTimers.concat(notStartedTimers,endedTimers);
+
+    $scope.goalsList = newData;
+    bindEverything();
+    if(mightBeRunning){
+      // $('.startBtn').attr('disabled', 'disabled');
+      var timer = $('.actual-timer[go-timer-id='+mightBeRunning+']');
+      console.log(timer);
+      countUp(timer);
+    }
+  })
+}
+
+
+
+fetch();
+
+</script>
+
+<style>
+
+.runningWall{
+  background-color: #dbf0db;
+}
+
+.endedWall{
+  background-color: #fbe9d0;
+}
+
+.waitingWall{
+  background-color: #ccebff;
+}
+
+.small-padding{
+  padding-left: 5px;
+  padding-right: 5px;
+}
+</style>
+
+<script src="/src/js/notie.js"></script>
+
+</html>

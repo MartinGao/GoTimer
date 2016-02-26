@@ -104,36 +104,56 @@ module.exports = (app) => {
           items : logs
         });
       } else {
-
         let newLogs = [];
-
         async.each(logs,(log,cb) => {
-
           let temp = JSON.parse(JSON.stringify(log));
-
           temp.onGoingDuration = moment().unix() - moment(temp.started).unix();
-
           let msms = moment().diff(moment().add(-log.estimatedTime,'seconds'));
           let dd = moment.duration(msms);
           let ss = ("0" + Math.floor(dd.asHours()) ).slice(-2) + moment(msms).format(":mm:ss");
-
-
           temp.estimatedDurationString = ss;
-
           newLogs.push(temp);
           cb();
-
         },() => {
           console.log(newLogs);
           res.render('Log/goalsList.html', {
             items: newLogs
           });
         });
-
       }
     })
-
   });
+
+  app.get('/log/list-versionB/:userId', (req, res) => {
+    Log.find({
+      user: mongoose.Types.ObjectId(req.params.userId),
+      ended: null,
+    }).sort('-started').exec((err ,logs) => {
+      if (err) {
+        res.render('Log/goalsList.html', {
+          items : logs
+        });
+      } else {
+        let newLogs = [];
+        async.each(logs,(log,cb) => {
+          let temp = JSON.parse(JSON.stringify(log));
+          temp.onGoingDuration = moment().unix() - moment(temp.started).unix();
+          let msms = moment().diff(moment().add(-log.estimatedTime,'seconds'));
+          let dd = moment.duration(msms);
+          let ss = ("0" + Math.floor(dd.asHours()) ).slice(-2) + moment(msms).format(":mm:ss");
+          temp.estimatedDurationString = ss;
+          newLogs.push(temp);
+          cb();
+        },() => {
+          console.log(newLogs);
+          res.render('Log/goalsList-VersionB.html', {
+            items: newLogs
+          });
+        });
+      }
+    })
+  });
+
 
   app.get('/log/timer', (req, res) => {
     res.render('index.html', { items: timers });
