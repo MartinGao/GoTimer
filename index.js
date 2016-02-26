@@ -70,7 +70,6 @@ app.get('/src/:parentPath/:path', function(req, res){
 app.get('*', (req, res) => {
   res.status(404).render('404.html');
 });
-
 //connect with database
 mongoose.connect('mongodb://db.siriolabs.com/go-timer-dev', (err) => {
   if (err) {
