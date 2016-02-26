@@ -317,10 +317,6 @@ function bindEverything(){
   if(getUrlParameter('reload')){
     $('#history-button').qtip({
       // $('#addSeg').qtip({
-      show : true,
-      hide: {
-        inactive: 2500
-      },
       position: {
         // adjust: {
         //  y: -30,
@@ -332,9 +328,14 @@ function bindEverything(){
        my: 'bottom center',  // Position my top left...
 
       },
-      content: {
-          text: 'Check Your Finished Goals <br> by clicking "History" Tab!'
-      }
+      content: 'Check your finished <br> goals here!',
+      style: {
+        classes: 'qtip-blue qtip-shadow'
+      },
+      show : { ready: true },
+      hide: {
+        inactive: 2500
+      },
     })
   }
 
@@ -419,7 +420,7 @@ function bindEverything(){
 
     swal({
       title: "Finish this goal?",
-      text: "Tips: You can view all your finished goals under 'Histry' Tab",
+      // text: "Tips: You can view all your finished goals under 'History' Tab",
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#eea236",
