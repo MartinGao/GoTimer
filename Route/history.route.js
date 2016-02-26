@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import moment from 'moment';
 import async from 'async';
+import _ from 'lodash';
 const Log = mongoose.model('Log');
 
 module.exports = (app) => {
@@ -99,18 +100,28 @@ module.exports = (app) => {
     console.log(moment(req.params.date).get('date'))
     console.log(moment(req.params.date).format())
 
-    console.log('gte ' + moment([moment(req.params.date).get('years'), moment(req.params.date).get('months'), moment(req.params.date).get('date')]).format())
-    console.log('lt ' + moment([moment(req.params.date).get('years'), moment(req.params.date).get('months'), moment(req.params.date).get('date') + 1]).format())
+    console.log('gte ' + moment([moment(req.params.date).get('years'), moment(req.params.date).get('months'), moment(req.params.date).get('date')]).toDate())
+    console.log('lt ' + moment([moment(req.params.date).get('years'), moment(req.params.date).get('months'), moment(req.params.date).get('date') + 1]).toDate())
+
+
+
 
     Log.aggregate([
         {
             $match: {
               user: mongoose.Types.ObjectId(req.params.userId),
               ended: { $ne : null},
-              // created: {
-              //     $gte: moment([moment(req.params.date).get('years'), moment(req.params.date).get('months'), moment(req.params.date).get('date')]).format(),
-              //     $lt: moment([moment(req.params.date).get('years'), moment(req.params.date).get('months'), moment(req.params.date).get('date') + 1]).format(),
-              // },
+              created: {
+
+                $gte: moment([moment(req.params.date).get('years'), moment(req.params.date).get('months'), moment(req.params.date).get('date')]).toDate(),
+                $lt: moment([moment(req.params.date).get('years'), moment(req.params.date).get('months'), moment(req.params.date).get('date') + 1]).toDate(),
+
+                  // $lte : { "$date" : moment([moment(req.params.date).get('years'), moment(req.params.date).get('months'), moment(req.params.date).get('date')]).toDate()},
+                  // $gte : { "$date" : moment([moment(req.params.date).get('years'), moment(req.params.date).get('months'), moment(req.params.date).get('date') + 1]).toDate()}
+
+                  // $gte: new Date(moment([moment(req.params.date).get('years'), moment(req.params.date).get('months'), moment(req.params.date).get('date')]).format('YYYY-MM-DD')),
+                  // $lt:  new Date(moment([moment(req.params.date).get('years'), moment(req.params.date).get('months'), moment(req.params.date).get('date') + 1]).format('YYYY-MM-DD')),
+              },
             }
         },
         {
@@ -118,6 +129,7 @@ module.exports = (app) => {
               _id: '$category',
               items: {$push :{
                 name : '$name',
+                created : '$created',
                 estimatedTime : '$estimatedTime',
                 started : '$started',
                 ended : '$ended',
@@ -129,6 +141,28 @@ module.exports = (app) => {
       let newLogs = [];
       console.log(logs)
 
+
+      let colorTable = {
+        'Eat': '#113F8C',
+        'Entertainment': '#01A4A4',
+        'Housework': '#00A1CB',
+        'Sport': '#61AE24',
+        'Sleep': '#D0D102',
+        'Study': '#32742C',
+        'Transport': '#D70060',
+        'Work': '#E54028',
+        'Others': '#F18D05',
+      }
+
+      let totalTime = 0;
+      _.map(logs,(a) => {
+        totalTime += _.sumBy(a.items, (aa) => {
+          return parseFloat(moment(aa.ended).diff(moment(aa.started)) / 60 / 1000);
+        })
+      })
+
+      console.log('totalTime -> ' + totalTime);
+
       async.eachSeries(logs,(category,categoryCb) => {
         console.log(category)
           var time = 0;
@@ -136,15 +170,27 @@ module.exports = (app) => {
             time += moment(item.ended).diff(moment(item.started)) / 60 / 1000;
             itemCb();
           }, () => {
-            newLogs.push({
+
+            let temp = {
               category: category._id,
               time: time,
 
-              color: '#'+Math.floor(Math.random()*16777215).toString(16),
+              color: colorTable[category._id],
               value: time,
-              highlight:  '#'+Math.floor(Math.random()*16777215).toString(16),
+              totalMinutes: (time / 60).toFixed(2),
+              highlight: colorTable[category._id],
               label: category._id,
-            })
+            }
+
+            let msms = moment().diff(moment().add(-temp.time,'minutes'));
+            let dd = moment.duration(msms);
+            let ss = ("0" + Math.floor(dd.asHours()) ).slice(-2) + moment(msms).format(":mm:ss");
+
+
+            temp.totalMinutes = ss;
+            temp.percentage = ((time / totalTime) * 100).toFixed(2) + '%'
+
+            newLogs.push(temp)
             categoryCb();
           })
 

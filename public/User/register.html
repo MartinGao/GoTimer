@@ -41,23 +41,31 @@ function register(){
     url: "/api/user/register",
     type: 'POST',
     data: {
-      name: $('#nameField').val(),
+      email: $('#nameField').val(),
       password: $('#passwordField').val(),
     },
   })
   .done(function(data) {
     console.log(data);
 
+    Cookies.set('email', data.email, { expires: 180 });
+    Cookies.set('userId', data._id, { expires: 180 });
+
+
     swal({
       title: "Welcome to GoTimer!",
       type: "success",
+      text: "Redirect to home page in 2 seconds..",
       showConfirmButton: true,
       confirmButtonText: "Go to home page now",
     }, function(isConfirm){
-      Cookies.set('name', data.name, { expires: 180 });
-      Cookies.set('userId', data._id, { expires: 180 });
       window.location = "/log/list/" + Cookies.get('userId')
     })
+
+    setTimeout(function(){
+      window.location = "/log/list/" + Cookies.get('userId')
+    },2500)
+
 
   })
   .error(function() {

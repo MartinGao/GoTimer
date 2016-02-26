@@ -112,11 +112,29 @@
         <p class="gray" style="text-align : left">{{item.estimatedDurationString}}</p>
       </div>
 
+      {% if item.started != null%}
+      {% if item.ended == null%}
+
+      <div class="col-xs-6 small-padding">
+        <button class="col-xs-12 btn btn-xs btn-warning editBtn disabled" go-timer-id="{{item._id}}">
+          <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+        </button>
+      </div>
+      {% else %}
       <div class="col-xs-6 small-padding">
         <button class="col-xs-12 btn btn-xs btn-warning editBtn" go-timer-id="{{item._id}}">
           <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
         </button>
       </div>
+      {% endif %}
+      {% else %}
+      <div class="col-xs-6 small-padding">
+        <button class="col-xs-12 btn btn-xs btn-warning editBtn" go-timer-id="{{item._id}}">
+          <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Edit
+        </button>
+      </div>
+      {% endif %}
+
 
       <div class="col-xs-6 small-padding">
         <button class="col-xs-12 btn btn-xs btn-danger deleteBtn" go-timer-id="{{item._id}}">
@@ -150,22 +168,27 @@
   function toggleDetail(){
     var detail = $(this).parent().parent().parent().find('.goalDetailContainer')
     if(!detail.is(":visible")){
-      detail.show().addClass('animated flash');
+      detail.show().addClass('animated fadeIn');
       console.log('about to show')
-      $(this).find('.up').show().addClass('animated flash');
+      $(this).find('.up').show().addClass('animated fadeIn');
       $(this).find('.ex').hide()
 
     }
     else{
-      detail.hide().addClass('animated flash');
-      $(this).find('.ex').show().addClass('animated flash');
+      detail.hide().addClass('animated fadeIn');
+      $(this).find('.ex').show().addClass('animated fadeIn');
       $(this).find('.up').hide()
     }
   }
 
 
   $('.editBtn').click(function(){
-    window.location = "/log/edit/" + $(this).attr('go-timer-id');
+    if($(this).hasClass('disabled')){
+      notie.alert(2, "You can't edit a goal while it is in progress!", 1.5);
+    }
+    else{
+      window.location = "/log/edit/" + $(this).attr('go-timer-id');
+    }
   })
 
   // Delete Btn

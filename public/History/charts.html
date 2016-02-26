@@ -33,11 +33,6 @@
             You don't any goal for selected date.
           </p>
 
-          <p>
-            Please Add Some!         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-
-          </p>
-
 
         </h5>
       </a>
@@ -46,21 +41,56 @@
     {% else %}
 
     <div class="col-xs-12">
-
       <canvas class="middle" id="myChart" max-width="100%" max-height="100%"></canvas>
+    </div>
+
+    <!-- <div class="col-xs-8 col-xs-offset-2" style="margin-top : 50px;">
+      <div class="middle" id="legend">
+      </div>
+    </div> -->
+
+
+
+    <div class="col-xs-12 no-padding cell">
+      <div class="col-xs-3 small-padding">
+        <h5 style="text-align : center">Color</h5>
+      </div>
+      <div class="col-xs-3 small-padding">
+        <h5 style="text-align : center">Category</h5>
+      </div>
+      <div class="col-xs-3 small-padding">
+        <h5 style="text-align : center">Total Times</h5>
+      </div>
+      <div class="col-xs-3 small-padding">
+        <h5 style="text-align : center">Percentage</h5>
+      </div>
+    </div>
+
+    <div class="col-xs-12 no-padding tables" id="tables">
+      <div style="text-align : center" class="col-xs-3 small-padding">
+        <p class="color" style="text-align : center" hidden>红色</p>
+        <span class="legend-color" style="background-color: blue; height: 20px; left: 45%"></span>
+      </div>
+
+      <div class="col-xs-3 small-padding">
+        <p class="category" style="text-align : center">Eat</p>
+      </div>
+
+      <div class="col-xs-3 small-padding">
+        <p class="totalMinutes" style="text-align : center">120 mins</p>
+      </div>
+
+      <div class="col-xs-3 small-padding">
+        <p class="percentage" style="text-align : center">12 ％</p>
+      </div>
 
     </div>
+
+
 
     {% endif %}
 
 
-    <div class="col-xs-8 col-xs-offset-2" style="margin-top : 50px;">
-
-      <div class="middle" id="legend">
-      </div>
-
-
-    </div>
 
     </div>
   </div>
@@ -68,7 +98,6 @@
   {% include "tabBar.html" %}
 </body>
 <script>
-
 
 
 var $scope = Bind({

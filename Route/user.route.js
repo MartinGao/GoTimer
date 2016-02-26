@@ -22,7 +22,7 @@ module.exports = (app) => {
   //Backend API
   app.post('/api/user/register', (req, res) => {
     User.create({
-      name: req.body.name,
+      email: req.body.email,
       password: req.body.password,
     }, (err, newUser) => {
       if (err) {
@@ -35,7 +35,7 @@ module.exports = (app) => {
 
   app.post('/api/user/login', (req, res) => {
     User.findOne({
-      name: req.body.name,
+      email: req.body.email,
       password: req.body.password,
     }, (err, currentUser) => {
       if (err) {

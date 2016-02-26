@@ -39,7 +39,7 @@ function register(){
     url: "/api/user/login",
     type: 'POST',
     data: {
-      name: $('#nameField').val(),
+      email: $('#nameField').val(),
       password: $('#passwordField').val(),
     },
   })
@@ -52,7 +52,7 @@ function register(){
       showConfirmButton: true,
       confirmButtonText: "Go to home page now",
     }, function(isConfirm){
-      Cookies.set('name', data.name, { expires: 180 });
+      Cookies.set('email', data.email, { expires: 180 });
       Cookies.set('userId', data._id, { expires: 180 });
       Cookies.set('selectedDate', moment().format(), { expires: 180 });
       window.location = "/log/list/" + Cookies.get('userId')

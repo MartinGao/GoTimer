@@ -48,4 +48,19 @@ $.ajax({
   $('#legend').html(myDoughnutChart.generateLegend());
 
 
+  var tables = [{
+    color: 'Jogging'
+    },{
+    color: 'Blue'
+    },
+  ];
+
+  $('#tables').render(data);
+
+  $.map( $('.color'), function( n ) {
+    $(n).parent().find('.legend-color').css('background-color', $(n).text())
+    console.log(n);
+    console.log($(n).parent());
+  });
+
 });
