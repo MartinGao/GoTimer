@@ -316,7 +316,7 @@ function bindEverything(){
 
   if(getUrlParameter('reload')){
     $('#history-button')
-    .click(function((){
+    .click(function(){
       ga("send", "event", "history", "click");
     })
     .qtip({
