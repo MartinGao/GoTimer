@@ -192,7 +192,9 @@ valueOf()+(h?'&utmxhash='+escape(h.substr(1)):'')+
 {% include "tabBar.html" %}
 </body>
 <script>
-$('#tireed').attr('href','/history/list/' + Cookies.get('userId')+'/' + moment().format())
+$('#tireed').attr('href','/history/list/' + Cookies.get('userId')+'/' + moment().format()).click(function(){
+    ga("send", "event", "history", "click");
+})
 
 
 var tips = [

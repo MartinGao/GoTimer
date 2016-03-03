@@ -315,7 +315,11 @@ function bindEverything(){
   console.log('is this reload? -> ' + getUrlParameter('reload'));
 
   if(getUrlParameter('reload')){
-    $('#history-button').qtip({
+    $('#history-button')
+    .click(function((){
+      ga("send", "event", "history", "click");
+    })
+    .qtip({
       // $('#addSeg').qtip({
       position: {
         // adjust: {
