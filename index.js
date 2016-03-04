@@ -56,9 +56,16 @@ app.get('/settings', (req, res) => {
 // });
 
 
-app.get('/', (req, res) => {
-  res.redirect('/log/list')
-});
+// app.get('/', (req, res) => {
+//   const coin = Math.random();
+//   if (coin > 0.5){
+//     console.log('coin -> ' + coin);
+//     res.redirect('/log/list')
+//   } else {
+//     console.log('coin -> ' + coin);
+//     res.redirect('/log/list-versionB')
+//   }
+// });
 
 app.get('/src/:parentPath/:path', function(req, res){
   let path        = req.params.path;

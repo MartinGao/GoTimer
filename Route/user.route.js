@@ -17,8 +17,6 @@ module.exports = (app) => {
     res.render('splash.html');
   });
 
-
-
   //Backend API
   app.post('/api/user/register', (req, res) => {
     User.create({

@@ -59,11 +59,25 @@ function register(){
       showConfirmButton: true,
       confirmButtonText: "Go to home page now",
     }, function(isConfirm){
-      window.location = "/log/list/" + Cookies.get('userId')
+      var coin = Math.random();
+      if (coin > 0.5){
+        console.log('coin -> ' + coin);
+        window.location = '/log/list/' + Cookies.get('userId')
+      } else {
+        console.log('coin -> ' + coin);
+        window.location = '/log/list-versionB/' + Cookies.get('userId')
+      }
     })
 
     setTimeout(function(){
-      window.location = "/log/list/" + Cookies.get('userId')
+      var coin = Math.random();
+      if (coin > 0.5){
+        console.log('coin -> ' + coin);
+        window.location = '/log/list/' + Cookies.get('userId')
+      } else {
+        console.log('coin -> ' + coin);
+        window.location = '/log/list-versionB/' + Cookies.get('userId')
+      }
     },2500)
 
 

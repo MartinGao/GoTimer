@@ -55,7 +55,15 @@ function register(){
       Cookies.set('email', data.email, { expires: 180 });
       Cookies.set('userId', data._id, { expires: 180 });
       Cookies.set('selectedDate', moment().format(), { expires: 180 });
-      window.location = "/log/list/" + Cookies.get('userId')
+
+      var coin = Math.random();
+      if (coin > 0.5){
+        console.log('coin -> ' + coin);
+        window.location = '/log/list/' + Cookies.get('userId')
+      } else {
+        console.log('coin -> ' + coin);
+        window.location = '/log/list-versionB/' + Cookies.get('userId')
+      }
     })
 
   })
