@@ -116,7 +116,7 @@ module.exports = (app) => {
           cb();
         },() => {
           console.log(newLogs);
-          res.render('Log/goalsList.html', {
+          res.render('Log/goalsList-VersionB.html', {
             items: newLogs
           });
         });

@@ -141,8 +141,17 @@
 <div class="col-xs-12 no-padding" style=" margin-bottom: -33px;">
   <div class="alert">
     <p>
-      <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-      Estimated time for this goal is {{item.estimatedDurationString}}
+
+      {% if item.estimatedDurationString == '00:00:00' %}
+        <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+        No estimated time for this goal
+
+      {% else %}
+        <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+        Estimated time for this goal is {{item.estimatedDurationString}}
+      {% endif %}
+
+
     </p>
     <!-- <p>
       <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>

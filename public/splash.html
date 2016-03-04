@@ -10,11 +10,87 @@
 
 <body>
   {% include "navBar.html" %}
-  <div class="container">
-      <a style="margin-bottom: 10px;" type="button" id="addSeg" href="user/register" class="small-padding col-xs-12 btn btn-info">Register</a>
+  <!-- <div class="container">
       <a style="margin-bottom: 10px;" type="button" id="addSeg" href="user/login" class="small-padding col-xs-12 btn btn-info">Login</a>
+  </div> -->
+
+  <div class="container">
+
+
+
+    <div class="form-group">
+      <label for="nameField">Name</label>
+      <input type="text" class="form-control" id="nameField" placeholder="Name">
+    </div>
+
+    <div class="form-group">
+      <label for="nameField">Password</label>
+      <input type="password" class="form-control" id="passwordField" placeholder="Password">
+    </div>
+
+
+
+      <a style="margin-bottom: 10px;" type="button" id="addSeg" href="#" onClick="register()" class="small-padding col-xs-12 btn btn-info">Login</a>
+
+      <a style="margin-bottom: 10px;" type="button" id="addSeg" href="user/register" class="small-padding col-xs-12 btn btn-default">Dont have an account? Register Now!</a>
+
   </div>
+
 </body>
+
+
+<script>
+$('#page-title').text("Log In")
+
+function register(){
+  $.ajax({
+    url: "/api/user/login",
+    type: 'POST',
+    data: {
+      email: $('#nameField').val(),
+      password: $('#passwordField').val(),
+    },
+  })
+  .done(function(data) {
+    console.log(data);
+
+    swal({
+      title: "Welcome back!",
+      type: "success",
+      showConfirmButton: true,
+      confirmButtonText: "Go to home page now",
+    }, function(isConfirm){
+      Cookies.set('email', data.email, { expires: 180 });
+      Cookies.set('userId', data._id, { expires: 180 });
+      Cookies.set('selectedDate', moment().format(), { expires: 180 });
+
+      var coin = Math.random();
+      if (coin > 0.5){
+        console.log('coin -> ' + coin);
+        window.location = '/log/list/' + Cookies.get('userId')
+      } else {
+        console.log('coin -> ' + coin);
+        window.location = '/log/list-versionB/' + Cookies.get('userId')
+      }
+    })
+
+  })
+  .error(function() {
+
+    swal({
+      title: "Something Wrong?",
+      text: "Please try again",
+      type: "error",
+      showCancelButton: true,
+      showConfirmButton: false,
+      cancelButtonText: "#5cb85c",
+      cancelButtonText: "Nope!",
+    }, function(isConfirm){
+    })
+  })
+}
+
+</script>
 
 <script>
 if(Cookies.get('userId')){

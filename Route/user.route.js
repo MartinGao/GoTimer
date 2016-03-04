@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 const User = mongoose.model('User');
+const Log = mongoose.model('Log');
 
 module.exports = (app) => {
 
@@ -18,6 +19,22 @@ module.exports = (app) => {
   });
 
   //Backend API
+  //
+   app.get('/api/user/basicInfo', (req, res) => {
+     User.findOne({ email: req.query.id }).exec((err,u) => {
+       Log.find({
+         user: u._id,
+       }, (err, newUser) => {
+         if (err) {
+           res.status(400).send(err);
+         } else {
+           res.send(newUser);
+         }
+       })
+     })
+    });
+
+
   app.post('/api/user/register', (req, res) => {
     User.create({
       email: req.body.email,

@@ -5,7 +5,8 @@
   {% include "htmlHead.html" %}
 
   <script src="/src/js/bind.min.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.6.1/lodash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 </head>
 
 <body>
@@ -25,6 +26,29 @@
       </div>
     </div>
 
+    <div class="col-xs-12 no-padding cell">
+
+      <div class="col-xs-6 no-padding">
+        <span>Total Finished Goals</span>
+      </div>
+
+      <div class="col-xs-6 no-padding" style="text-align:right">
+        <span style="text-align:right" id="finishedGoals"></span>
+      </div>
+    </div>
+
+    <div class="col-xs-12 no-padding cell">
+
+      <div class="col-xs-6 no-padding">
+        <span>Total Loged Minutes</span>
+      </div>
+
+      <div class="col-xs-6 no-padding" style="text-align:right">
+        <span style="text-align:right" id="totalMinues"></span>
+      </div>
+    </div>
+
+
 
     <div class="form-group">
         <a type="button" id="addSeg" href="#" onClick="logOut()" class="small-padding col-xs-12 btn btn-danger">Logout</a>
@@ -39,10 +63,36 @@
 <script>
 
 var $scope = Bind({
-   nameLabel :  Cookies.get('email'),
+  nameLabel :  Cookies.get('email'),
+  finishedGoals :  'loading',
+  totalMinues :  'loading',
  }, {
    nameLabel : '#nameLabel',
+   finishedGoals : '#finishedGoals',
+   totalMinues : '#totalMinues',
  })
+
+
+ $.ajax({
+   url: "/api/user/basicInfo",
+   type: 'GET',
+   data: {
+     id: Cookies.get('email'),
+   },
+ })
+ .done(function(data) {
+   console.log(data);
+   console.log(data.length);
+   $scope.totalMinues = _.sumBy(data, function(o){
+     var ms = moment(o.ended).diff(moment(o.started));
+     var d = moment.duration(ms).minutes();
+     console.log(o);
+     return d;
+   })
+   $scope.totalMinues += ' mins'
+   $scope.finishedGoals = data.length;
+ });
+
 
  function logOut(){
     swal({
