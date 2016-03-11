@@ -17,7 +17,7 @@ module.exports = (app) => {
 
     Log.find({
       user: req.params.userId,
-      created: {
+      ended: {
           $gte: moment([moment(req.params.date).get('years'), moment(req.params.date).get('months'), moment(req.params.date).get('date')]).format(),
           $lt: moment([moment(req.params.date).get('years'), moment(req.params.date).get('months'), moment(req.params.date).get('date') + 1]).format(),
       },
@@ -110,8 +110,8 @@ module.exports = (app) => {
         {
             $match: {
               user: mongoose.Types.ObjectId(req.params.userId),
-              ended: { $ne : null},
-              created: {
+              // ended: { $ne : null},
+              ended: {
 
                 $gte: moment([moment(req.params.date).get('years'), moment(req.params.date).get('months'), moment(req.params.date).get('date')]).toDate(),
                 $lt: moment([moment(req.params.date).get('years'), moment(req.params.date).get('months'), moment(req.params.date).get('date') + 1]).toDate(),
@@ -144,7 +144,7 @@ module.exports = (app) => {
 
       let colorTable = {
         'Eat': '#113F8C',
-        'Entertainment': '#01A4A4',
+        'Entertainment': '#6666FF',
         'Housework': '#00A1CB',
         'Sport': '#61AE24',
         'Sleep': '#D0D102',
@@ -161,7 +161,7 @@ module.exports = (app) => {
         })
       })
 
-      console.log('totalTime -> ' + totalTime);
+      console.log('totalTime -> ' + totalTime.toFixed(2));
 
       async.eachSeries(logs,(category,categoryCb) => {
         console.log(category)
@@ -173,10 +173,10 @@ module.exports = (app) => {
 
             let temp = {
               category: category._id,
-              time: time,
+              time: time.toFixed(2),
 
               color: colorTable[category._id],
-              value: time,
+              value: time.toFixed(2),
               totalMinutes: (time / 60).toFixed(2),
               highlight: colorTable[category._id],
               label: category._id,
